@@ -246,6 +246,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'product-details/:id',
+        loadComponent: () =>
+          import('./features/products/product-detail-page.component').then(
+            (component) => component.ProductDetailPageComponent,
+          ),
+      },
+      {
         path: 'products',
         loadComponent: () =>
           import('./features/products/products-page.component').then(
