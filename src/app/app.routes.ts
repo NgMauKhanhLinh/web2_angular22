@@ -282,6 +282,7 @@ export const routes: Routes = [
       },
       {
         path: 'thong-tin-nguoi-dung',
+        canActivate: [authGuard],
         loadComponent: () =>
           import('./features/customer/account/account-page.component').then(
             (component) => component.AccountPageComponent,
@@ -289,6 +290,7 @@ export const routes: Routes = [
       },
       {
         path: 'thu-cung-cua-toi',
+        canActivate: [authGuard],
         loadComponent: () =>
           import('./features/customer/pet-profile/pet-profile-page.component').then(
             (component) => component.PetProfilePageComponent,
