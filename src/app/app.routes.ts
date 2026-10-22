@@ -260,6 +260,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'grooming',
+        loadComponent: () =>
+          import('./features/grooming/grooming-page.component').then(
+            (component) => component.GroomingPageComponent,
+          ),
+      },
+      {
         path: 'booking',
         loadComponent: () =>
           import('./features/booking/booking-page.component').then(
