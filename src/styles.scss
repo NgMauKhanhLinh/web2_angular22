@@ -2,6 +2,7 @@
 @use './app/features/admin/service-catalog/components/branch-service-config-dialog.component';
 @use './app/features/admin/service-catalog/pages/service-catalog-editor.component';
 @use './app/features/admin/service-catalog/pages/service-catalog-list.component';
+@import "@phosphor-icons/web/src/css/phosphor.css";
 
 /* Global styles for Dr. Pet's House.
  * Tailwind CSS will be configured in a later foundation phase.
