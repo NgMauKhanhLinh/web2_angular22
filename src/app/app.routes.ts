@@ -274,6 +274,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'forgot-password',
+        loadComponent: () =>
+          import('./features/customer/forgot-password/forgot-password.component').then(
+            (component) => component.ForgotPasswordComponent,
+          ),
+      },
+      {
         path: 'register',
         loadComponent: () =>
           import('./features/customer/register/register.component').then(
