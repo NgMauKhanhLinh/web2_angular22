@@ -274,6 +274,27 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'register',
+        loadComponent: () =>
+          import('./features/customer/register/register.component').then(
+            (component) => component.RegisterComponent,
+          ),
+      },
+      {
+        path: 'thong-tin-nguoi-dung',
+        loadComponent: () =>
+          import('./features/customer/account/account-page.component').then(
+            (component) => component.AccountPageComponent,
+          ),
+      },
+      {
+        path: 'thu-cung-cua-toi',
+        loadComponent: () =>
+          import('./features/customer/pet-profile/pet-profile-page.component').then(
+            (component) => component.PetProfilePageComponent,
+          ),
+      },
+      {
         path: 'orders',
         loadComponent: () =>
           import('./features/orders/orders-page.component').then(
