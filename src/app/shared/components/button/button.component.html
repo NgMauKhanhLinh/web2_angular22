@@ -1,0 +1,15 @@
+<button
+  class="shared-button"
+  [class.shared-button--secondary]="variant === 'secondary'"
+  [attr.type]="type"
+  [disabled]="disabled || loading"
+  [attr.aria-busy]="loading"
+>
+  @if (loading) {
+    <span class="shared-button__spinner" aria-hidden="true"></span>
+  }
+
+  <span class="shared-button__label">
+    <ng-content />
+  </span>
+</button>

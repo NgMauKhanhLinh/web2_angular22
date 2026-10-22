@@ -1,0 +1,19 @@
+<nav class="staff-week-nav" aria-label="Chuyển tuần làm việc">
+  <button type="button" class="staff-week-nav__arrow"
+    aria-label="Tuần trước" (click)="previousWeek.emit()">‹</button>
+  <span class="staff-week-nav__picker">
+    <button type="button" class="staff-week-nav__date"
+      aria-label="Chọn tuần bằng lịch" (click)="openCalendar()">
+      <span>{{ label }}</span>
+      <img src="/assets/admin-staff/calendar-today.svg" width="18" height="18"
+        alt="" aria-hidden="true">
+    </button>
+    <input #dateInput class="staff-week-nav__native" type="date"
+      aria-label="Chọn ngày trong tuần" [value]="monday"
+      (change)="onDateSelected(dateInput.value)">
+  </span>
+  <button type="button" class="staff-week-nav__today"
+    (click)="currentWeek.emit()">Hôm nay</button>
+  <button type="button" class="staff-week-nav__arrow"
+    aria-label="Tuần sau" (click)="nextWeek.emit()">›</button>
+</nav>

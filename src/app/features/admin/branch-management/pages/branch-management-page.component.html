@@ -1,0 +1,136 @@
+<app-admin-catalog-shell activeItem="branches">
+  <main class="branch-management" [class.branch-management--detail]="!!branch">
+    <nav class="branch-management__breadcrumb" aria-label="Đường dẫn">
+      <span>Vận hành</span><span aria-hidden="true">›</span>
+      @if (branch) {
+        <a routerLink="/admin/branches">Chi nhánh</a><span aria-hidden="true">›</span>
+        <strong aria-current="page">{{ branch.name }}</strong>
+      } @else {
+        <strong aria-current="page">Chi nhánh</strong>
+      }
+    </nav>
+
+    <header class="branch-management__header">
+      <div>
+        <h1>{{ pageTitle }}</h1>
+      </div>
+      @if (branch) {
+        <a class="branch-management__button branch-management__button--outline" routerLink="/admin/branches">Tất cả chi nhánh</a>
+      } @else {
+        <a class="branch-management__button branch-management__button--outline" routerLink="/admin/services">Về danh mục dịch vụ</a>
+      }
+    </header>
+
+    @if (branchId && !branch) {
+      <div class="branch-management__notice" role="alert">
+        Không tìm thấy chi nhánh hoặc chi nhánh không thuộc phạm vi demo của tài khoản này.
+        <a routerLink="/admin/branches">Xem danh sách được phép</a>
+      </div>
+    } @else if (!branch) {
+
+      @if (hasFocusedService) {
+        <p class="branch-management__notice">
+          Bạn đang cấu hình dịch vụ <strong>{{ focusedService!.serviceCode }} – {{ focusedService!.name }}</strong>.
+          Hãy chọn chi nhánh muốn áp dụng.
+        </p>
+      }
+
+      <section class="branch-management__grid" aria-label="Danh sách chi nhánh">
+        @for (item of visibleBranches; track item.id) {
+          <article class="branch-management__branch-card">
+            <div class="branch-management__branch-icon" aria-hidden="true"><img src="/assets/admin-product/icon-operations.svg" alt=""/></div>
+            <div>
+              <h2>{{ item.name }}</h2>
+            </div>
+            <div class="branch-management__branch-meta">
+              <span>{{ getEnabledCount(item) }} dịch vụ đang bật</span>
+              <a class="branch-management__button branch-management__button--primary"
+                [routerLink]="branchLink(item)" [queryParams]="branchQueryParams()">
+                Dịch vụ &amp; Capacity <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+        }
+      </section>
+    } @else {
+      @if (hasFocusedService) {
+        <p class="branch-management__notice">
+          Đang chuyển từ Catalog: <strong>{{ focusedService!.name }}</strong>.
+          Chọn "Cấu hình" trong dòng dịch vụ bên dưới.
+        </p>
+      }
+
+      <section class="branch-management__summary" aria-label="Tổng quan chi nhánh">
+        <div><span>Chi nhánh</span><strong>{{ branch.name }}</strong></div>
+        <div><span>Dịch vụ đang bật</span><strong>{{ getEnabledCount(branch) }}/{{ allServices.length }}</strong></div>
+        <div><span>Phân quyền</span><strong>{{ isAdmin ? 'ADMIN' : 'MANAGER' }}</strong></div>
+      </section>
+
+      <section class="branch-management__panel" aria-labelledby="branch-service-heading">
+        <div class="branch-management__panel-header">
+          <div>
+            <h2 id="branch-service-heading">Dịch vụ &amp; Capacity</h2>
+            <p>Quản lý dịch vụ theo chi nhánh. Bật/Tắt, sức chứa và khoảng tạm khóa được cấu hình tại đây.</p>
+          </div>
+          <label class="branch-management__search">
+            <span class="branch-management__sr-only">Tìm theo tên hoặc mã dịch vụ</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#66758C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5"></circle><path d="m16 16 4.2 4.2"></path></svg>
+            <input #branchServiceSearch type="search" placeholder="Tìm tên hoặc mã dịch vụ..."
+              [value]="search()" (input)="updateSearch(branchServiceSearch.value)" />
+          </label>
+        </div>
+
+        <div class="branch-management__table-scroll">
+          <table class="branch-management__table">
+            <thead><tr>
+              <th scope="col">Mã dịch vụ</th>
+              <th scope="col">Tên dịch vụ</th>
+              <th scope="col">Hình thức</th>
+              <th scope="col">Kích hoạt</th>
+              <th scope="col">Capacity</th>
+              <th scope="col">Khả dụng</th>
+              <th scope="col">Thao tác</th>
+            </tr></thead>
+            <tbody>
+              @for (service of pagedServices; track service.id) {
+                <tr [class.branch-management__highlight]="focusedServiceId === service.id">
+                  <td class="branch-management__muted">{{ service.serviceCode }}</td>
+                  <td><strong>{{ service.name }}</strong><small>{{ service.category }}</small></td>
+                  <td><span class="branch-management__mode">{{ service.bookingMode }}</span></td>
+                  <td><span class="branch-management__pill"
+                    [class.branch-management__pill--off]="!isEnabled(service, branch.id)">
+                    {{ isEnabled(service, branch.id) ? 'Bật' : 'Tắt' }}</span></td>
+                  <td>{{ config(service, branch.id).capacity }}</td>
+                  <td class="branch-management__muted">BE tự tính</td>
+                  <td><button type="button" class="branch-management__button branch-management__button--outline"
+                    [attr.aria-label]="'Cấu hình ' + service.name + ' tại ' + branch.name"
+                    (click)="openConfiguration(service)">Cấu hình</button></td>
+                </tr>
+              } @empty {
+                <tr><td colspan="7" class="branch-management__empty">Không tìm thấy dịch vụ phù hợp.</td></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <footer class="branch-management__pagination">
+          <span>Đang hiển thị {{ pagedServices.length }} trên tổng số {{ filteredServices.length }} dịch vụ</span>
+          <nav aria-label="Phân trang dịch vụ tại chi nhánh">
+            <button type="button" aria-label="Trang trước"
+              [disabled]="page() === 1" (click)="setPage(page() - 1)">‹</button>
+            <span aria-current="page">{{ page() }}</span>
+            <button type="button" aria-label="Trang tiếp"
+              [disabled]="page() >= pageCount" (click)="setPage(page() + 1)">›</button>
+          </nav>
+        </footer>
+      </section>
+    }
+  </main>
+</app-admin-catalog-shell>
+
+@if (branch && activeService(); as service) {
+  <app-branch-service-config-dialog
+    [service]="service"
+    [branches]="[branch]"
+    [initialBranchId]="branch.id"
+    (dismiss)="closeConfiguration()" />
+}

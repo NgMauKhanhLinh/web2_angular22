@@ -1,0 +1,16 @@
+.page-title {
+  margin: 0;
+}
+
+.page-title__heading {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1;
+}
+
+.page-title__subtitle {
+  margin: 12px 0 0;
+  max-width: 60ch;
+  color: #475569;
+  line-height: 1.6;
+}

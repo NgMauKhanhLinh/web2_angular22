@@ -1,0 +1,234 @@
+<app-admin-catalog-shell activeItem="services">
+<section class="service-catalog" aria-labelledby="service-catalog-title">
+  <header class="service-catalog__heading">
+    <div class="service-catalog__heading-text">
+      <h1 id="service-catalog-title">Danh mục dịch vụ</h1>
+     </div>
+  </header>
+
+  @if (notice()) {
+    <div class="service-catalog__notice" role="status">
+      <span>{{ notice() }}</span>
+      <button type="button" (click)="notice.set(null)" aria-label="Đóng thông báo">×</button>
+    </div>
+  }
+
+  <div class="service-catalog__filters" role="search" aria-label="Tìm kiếm và lọc danh mục dịch vụ">
+    <label class="service-catalog__search">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#66758C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5"></circle><path d="m16 16 4.2 4.2"></path></svg>
+      <input
+        #serviceSearch
+        type="search"
+        autocomplete="off"
+        placeholder="Tên hoặc mã dịch vụ..."
+        aria-label="Tìm theo tên hoặc mã dịch vụ"
+        [value]="searchText()"
+        (input)="onSearch(serviceSearch.value)"
+      />
+    </label>
+
+    <div class="service-catalog__filter-selects">
+      <label class="service-catalog__select">
+        <span class="sr-only">Chi nhánh</span>
+        <select #branchFilter [value]="filters().branchId" (change)="setBranch(branchFilter.value)">
+          <option value="ALL">Tất cả chi nhánh</option>
+          @for (branch of scopedBranches(); track branch.id) {
+            <option [value]="branch.id">{{ branch.name }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="service-catalog__select">
+        <span class="sr-only">Hình thức đặt lịch</span>
+        <select #modeFilter [value]="filters().mode" (change)="setMode(modeFilter.value)">
+          <option value="ALL">Tất cả hình thức</option>
+          <option value="BOOKABLE">BOOKABLE</option>
+          <option value="REQUEST_ONLY">REQUEST_ONLY</option>
+          <option value="CONTACT_ONLY">CONTACT_ONLY</option>
+        </select>
+      </label>
+
+      <label class="service-catalog__select">
+        <span class="sr-only">Trạng thái Service Master</span>
+        <select #statusFilter [value]="filters().status" (change)="setStatus(statusFilter.value)">
+          <option value="ALL">Tất cả trạng thái</option>
+          <option value="ACTIVE">Đang hoạt động</option>
+          <option value="INACTIVE">Tạm ngưng</option>
+        </select>
+      </label>
+      @if (isAdmin()) {
+        <button type="button" class="service-catalog__create" (click)="createService()">
+          + Thêm dịch vụ
+        </button>
+      }
+    </div>
+  </div>
+
+  <section class="service-catalog__table-panel" aria-label="Bảng danh mục dịch vụ">
+    <div class="service-catalog__table-scroll">
+      <table class="service-catalog__table">
+        <thead>
+          <tr>
+            <th scope="col">Mã dịch vụ</th>
+            <th scope="col">Dịch vụ / Loại</th>
+            <th scope="col">Vai trò thực hiện</th>
+            <th scope="col">Hình thức</th>
+            <th scope="col">Thời lượng</th>
+            <th scope="col">Giá cơ sở</th>
+            <th scope="col">
+              {{ filters().branchId === 'ALL' ? 'CN đang bật' : 'Kích hoạt' }}
+            </th>
+            <th scope="col">Khả dụng</th>
+            <th scope="col" class="service-catalog__actions-col">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (loading()) {
+            @for (row of [1, 2, 3, 4, 5, 6]; track row) {
+              <tr aria-hidden="true">
+                @for (column of [1, 2, 3, 4, 5, 6, 7, 8, 9]; track column) {
+                  <td><span class="service-catalog__skeleton"></span></td>
+                }
+              </tr>
+            }
+          } @else if (error()) {
+            <tr>
+              <td colspan="9" class="service-catalog__empty-cell">
+                <div class="service-catalog__state" role="alert">
+                  <strong>Không tải được danh sách</strong>
+                  <p>{{ error() }}</p>
+                  <button type="button" (click)="retry()">Thử lại</button>
+                </div>
+              </td>
+            </tr>
+          } @else if (!rows().length) {
+            <tr>
+              <td colspan="9" class="service-catalog__empty-cell">
+                <div class="service-catalog__state">
+                  @if (searchText().trim() || filters().mode !== 'ALL' || filters().status !== 'ALL' || filters().branchId !== 'ALL') {
+                    <strong>Không tìm thấy dịch vụ nào</strong>
+                    <p>Thử từ khóa khác hoặc bỏ bớt bộ lọc.</p>
+                    <button type="button" (click)="clearFilters()">Xóa bộ lọc</button>
+                  } @else {
+                    <strong>Chưa có dịch vụ nào</strong>
+                    <p>Danh mục hiện chưa có dữ liệu.</p>
+                    @if (isAdmin()) {
+                      <button type="button" (click)="createService()">+ Thêm dịch vụ</button>
+                    }
+                  }
+                </div>
+              </td>
+            </tr>
+          } @else {
+            @for (service of rows(); track service.id; let i = $index) {
+              <tr>
+                <td class="service-catalog__code">{{ service.serviceCode }}</td>
+                <td>
+                  <span class="service-catalog__service-name">{{ service.name }}</span>
+                  <span class="service-catalog__service-category">{{ service.category }}</span>
+                </td>
+                <td class="service-catalog__secondary">{{ executorLabel(service.executorRole) }}</td>
+                <td>
+                  <span class="service-catalog__pill"
+                    [class.service-catalog__pill--request]="service.bookingMode === 'REQUEST_ONLY'"
+                    [class.service-catalog__pill--contact]="service.bookingMode === 'CONTACT_ONLY'">
+                    {{ service.bookingMode }}
+                  </span>
+                </td>
+                <td class="service-catalog__secondary">
+                  {{ service.durationMinutes !== null ? service.durationMinutes + ' phút' : '—' }}
+                </td>
+                <td class="service-catalog__price">{{ priceLabel(service) }}</td>
+                <td>
+                  @if (filters().branchId === 'ALL') {
+                    <span class="service-catalog__activation"
+                      [class.service-catalog__activation--off]="enabledCount(service) === 0">
+                      {{ enabledCount(service) }}/{{ service.totalBranchCount ?? '—' }} bật
+                    </span>
+                  } @else {
+                    <span class="service-catalog__activation"
+                      [class.service-catalog__activation--off]="!isEnabledAtSelectedBranch(service)">
+                      {{ service.branchServices.length ? (isEnabledAtSelectedBranch(service) ? 'Bật' : 'Tắt') : 'Chờ BE' }}
+                    </span>
+                  }
+                </td>
+                <td>
+                  <span class="service-catalog__availability" [class.service-catalog__availability--inactive]="enabledCount(service) === 0">{{ enabledCount(service) === 0 ? 'Chưa có CN bật' : (service.availabilityText ?? '—') }}</span>
+                </td>
+                <td class="service-catalog__actions-cell">
+                  <div class="service-catalog__row-action">
+                    <button
+                      type="button"
+                      class="service-catalog__more-button"
+                      [attr.aria-label]="'Thao tác với ' + service.name"
+                      aria-haspopup="menu"
+                      [attr.aria-expanded]="openMenuId() === service.id"
+                      (click)="toggleMenu($event, service.id)"
+                    >
+                      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" aria-hidden="true"><circle cx="6" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="18" cy="12" r="2"></circle></svg>
+                    </button>
+                    @if (openMenuId() === service.id) {
+                      <div class="service-catalog__action-menu" [class.service-catalog__action-menu--up]="i >= 4"
+                        role="menu" [attr.aria-label]="'Thao tác với ' + service.name">
+                        <button type="button" role="menuitem" (click)="selectAction('view', service)">Xem chi tiết</button>
+                        @if (isAdmin()) {
+                          <button type="button" role="menuitem" (click)="selectAction('edit', service)">Chỉnh sửa</button>
+                        }
+                        @if (canConfigure()) {
+                          <button type="button" role="menuitem" (click)="selectAction('configure', service)">
+                            Cấu hình tại chi nhánh
+                          </button>
+                        }
+                      </div>
+                    }
+                  </div>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="service-catalog__pagination">
+      <p>
+        @if (loading()) {
+          Đang tải danh mục…
+        } @else if (error()) {
+          Không thể hiển thị dữ liệu
+        } @else {
+          Đang hiển thị {{ rows().length }} trên tổng số {{ total() }} dịch vụ
+        }
+      </p>
+
+      @if (!loading() && !error() && total() > pageSize) {
+        <nav class="service-catalog__pages" aria-label="Phân trang danh sách dịch vụ">
+          <button type="button" (click)="goToPage(currentPage() - 1)"
+            [disabled]="currentPage() === 1" aria-label="Trang trước">‹</button>
+          @if (pageNumbers()[0] > 1) {
+            <button type="button" (click)="goToPage(1)">1</button>
+            @if (pageNumbers()[0] > 2) {
+              <span aria-hidden="true">…</span>
+            }
+          }
+          @for (page of pageNumbers(); track page) {
+            <button type="button" (click)="goToPage(page)"
+              [attr.aria-current]="currentPage() === page ? 'page' : null"
+              [class.service-catalog__page--selected]="currentPage() === page">
+              {{ page }}
+            </button>
+          }
+          @if (pageNumbers()[pageNumbers().length - 1] < pageCount()) {
+            @if (pageNumbers()[pageNumbers().length - 1] < pageCount() - 1) {
+              <span aria-hidden="true">…</span>
+            }
+            <button type="button" (click)="goToPage(pageCount())">{{ pageCount() }}</button>
+          }
+          <button type="button" (click)="goToPage(currentPage() + 1)"
+            [disabled]="currentPage() === pageCount()" aria-label="Trang tiếp">›</button>
+        </nav>
+      }
+    </footer>
+  </section>
+</section>
+</app-admin-catalog-shell>

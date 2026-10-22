@@ -1,0 +1,137 @@
+<app-admin-catalog-shell activeItem="staff">
+  <main class="staff-detail">
+    @if (staff; as employee) {
+      <header class="staff-detail__heading">
+        <div class="staff-detail__identity">
+          <nav class="staff-detail__breadcrumb" aria-label="Đường dẫn">
+            <a routerLink="/admin/staff">Nhân sự</a>
+            <span aria-hidden="true">›</span>
+            <strong aria-current="page">Xem chi tiết {{ employee.id }}</strong>
+          </nav>
+          <h1>{{ displayName(employee) }}</h1>
+          <p>{{ employee.id }} · {{ roleName(employee) }}</p>
+        </div>
+        <div class="staff-detail__actions">
+          <button type="button" class="staff-detail__button staff-detail__button--outline" (click)="goBack()">Hủy</button>
+          <a class="staff-detail__button staff-detail__button--primary"
+            [routerLink]="['/admin/staff', employee.id, 'edit']" [queryParams]="{ from: 'detail' }">Chỉnh sửa nhân viên</a>
+          <button type="button" class="staff-detail__button staff-detail__button--danger"
+            [disabled]="!canBlockAccount"
+            [title]="canBlockAccount ? 'Quản lý trạng thái tài khoản' : 'Chỉ Admin được chặn/bỏ chặn tài khoản'"
+            (click)="openBlockConfirmation()">{{ employee.accountStatus === 'BLOCKED' ? 'Bỏ chặn tài khoản' : 'Chặn tài khoản' }}</button>
+        </div>
+      </header>
+
+      <section class="staff-detail__card" aria-labelledby="staff-info-title">
+        <h2 id="staff-info-title">Thông tin nhân viên</h2>
+        <div class="staff-detail__info-grid">
+          <div class="staff-detail__info-column">
+            <div class="staff-detail__field"><span>Mã nhân viên</span><strong>{{ employee.id }}</strong></div>
+            <div class="staff-detail__field"><span>Họ và tên</span><strong>{{ displayName(employee) }}</strong></div>
+          </div>
+          <div class="staff-detail__info-column">
+            <div class="staff-detail__field"><span>Vai trò nghiệp vụ</span><strong>{{ roleName(employee) }}</strong></div>
+            <div class="staff-detail__field"><span>Số điện thoại</span><strong>{{ employee.phone || '—' }}</strong></div>
+          </div>
+          <div class="staff-detail__info-column">
+            <div class="staff-detail__field"><span>Email liên hệ</span><strong>{{ employee.email || '—' }}</strong></div>
+          </div>
+        </div>
+        <div class="staff-detail__divider"></div>
+      </section>
+
+      <div class="staff-detail__half-grid">
+        <section class="staff-detail__card" aria-labelledby="staff-branches-title">
+          <h2 id="staff-branches-title">Chi nhánh làm việc</h2>
+          <div class="staff-detail__two-fields">
+            <div class="staff-detail__field"><span>Chi nhánh chính</span><strong>{{ employee.homeBranch || '—' }}</strong></div>
+            <div class="staff-detail__field"><span>Chi nhánh được phân công</span><strong>{{ employee.branches.join(' | ') }}</strong></div>
+          </div>
+        </section>
+        <section class="staff-detail__card" aria-labelledby="staff-account-title">
+          <h2 id="staff-account-title">Tài khoản đăng nhập</h2>
+          <div class="staff-detail__two-fields">
+            <div class="staff-detail__field"><span>Tài khoản đăng nhập</span><strong>{{ employee.loginUsername || '—' }}</strong></div>
+            <div class="staff-detail__field">
+              <span>Trạng thái tài khoản</span>
+              <span class="staff-detail__badge" [class.staff-detail__badge--blocked]="employee.accountStatus === 'BLOCKED'">
+                {{ employee.accountStatus === 'ACTIVE' ? 'Đang hoạt động' : 'Đã chặn' }}
+              </span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section class="staff-detail__card staff-detail__schedule" aria-labelledby="staff-weekly-heading">
+        <header class="staff-detail__schedule-top">
+          <h2 id="staff-weekly-heading">Lịch làm việc theo tuần</h2>
+          <app-admin-staff-week-nav
+            [monday]="weekMonday()" [label]="weekLabel()"
+            (previousWeek)="moveWeek(-1)" (nextWeek)="moveWeek(1)"
+            (currentWeek)="goToday()" (dateSelected)="selectWeekDate($event)">
+          </app-admin-staff-week-nav>
+        </header>
+        <div class="staff-detail__schedule-scroll">
+          <table class="staff-detail__schedule-table">
+            <thead><tr>
+              <th scope="col">NGÀY</th>
+              <th scope="col">CHI NHÁNH</th>
+              <th scope="col">MẪU CA</th>
+              <th scope="col">KHUNG GIỜ</th>
+              <th scope="col">TRẠNG THÁI</th>
+            </tr></thead>
+            <tbody>
+              @for (day of weeks(); track day.isoDate) {
+                @if (day.shifts.length) {
+                  @for (shift of day.shifts; track shift.isoDate + shift.branch + shift.time) {
+                    <tr>
+                      <td><span class="staff-detail__day"><span>{{ day.weekday }}</span><small>{{ day.dayMonth }}</small></span></td>
+                      <td>{{ shift.branch }}</td>
+                      <td>{{ shift.shiftName }}</td>
+                      <td>{{ displayShift(shift.time) }}</td>
+                      <td>Đã xếp</td>
+                    </tr>
+                  }
+                } @else {
+                  <tr>
+                    <td>{{ day.label }}</td>
+                    <td>—</td>
+                    <td>Chưa phân ca</td>
+                    <td>—</td>
+                    <td>Chưa xếp</td>
+                  </tr>
+                }
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <p class="staff-detail__disclaimer">
+        Dữ liệu mẫu từ Figma — chỉ xem, chưa kết nối API Staff/Shift. Lịch các tuần không có mẫu chưa phản ánh dữ liệu thực tế.
+      </p>
+    } @else {
+      <nav class="staff-detail__breadcrumb" aria-label="Đường dẫn">
+        <a routerLink="/admin/staff">Nhân sự</a><span aria-hidden="true">›</span><strong>Không tìm thấy</strong>
+      </nav>
+      <section class="staff-detail__card" role="alert">
+        <h1>Không tìm thấy nhân viên</h1>
+        <p>Mã {{ staffId }} không tồn tại trong dữ liệu mẫu của Task 3.8.</p>
+        <a class="staff-detail__button staff-detail__button--outline" routerLink="/admin/staff">Về danh sách nhân viên</a>
+      </section>
+    }
+  </main>
+</app-admin-catalog-shell>
+
+@if (blockDialogOpen && staff; as employee) {
+  <div class="staff-detail__confirm-overlay" (keydown.escape)="closeBlockConfirmation()">
+    <section class="staff-detail__confirm" role="alertdialog" aria-modal="true"
+      aria-labelledby="staff-block-title" aria-describedby="staff-block-description" tabindex="-1">
+      <h2 id="staff-block-title">{{ employee.accountStatus === 'BLOCKED' ? 'Bỏ chặn tài khoản?' : 'Chặn tài khoản?' }}</h2>
+      <p id="staff-block-description">Bạn đang yêu cầu {{ employee.accountStatus === 'BLOCKED' ? 'bỏ chặn' : 'chặn' }} tài khoản của {{ displayName(employee) }}. Chức năng này hiện chưa có API Backend, nên không thay đổi trạng thái thật.</p>
+      <div class="staff-detail__confirm-actions">
+        <button class="staff-detail__button staff-detail__button--outline" type="button" autofocus (click)="closeBlockConfirmation()">Hủy</button>
+        <button class="staff-detail__button staff-detail__button--danger" type="button" (click)="confirmBlockPreview()">Xác nhận</button>
+      </div>
+    </section>
+  </div>
+}

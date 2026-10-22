@@ -1,0 +1,104 @@
+<div class="admin-shell">
+  <a class="admin-shell__skip-link" href="#admin-content">Skip to content</a>
+
+  <aside class="admin-shell__sidebar">
+    <a class="admin-shell__brand" routerLink="/admin/dashboard" aria-label="Dr. Pet's House admin dashboard">
+      <span class="admin-shell__brand-mark" aria-hidden="true">DP</span>
+      <span>
+        <strong>Dr. Pet's House</strong>
+        <small>Admin workspace</small>
+      </span>
+    </a>
+
+    <nav class="admin-shell__nav" aria-label="Admin navigation">
+      <a
+        class="admin-shell__nav-item"
+        routerLink="/admin/dashboard"
+        routerLinkActive="admin-shell__nav-item--active"
+        ariaCurrentWhenActive="page"
+      >
+        Dashboard
+      </a>
+      <a
+        class="admin-shell__nav-item"
+        routerLink="/admin/orders"
+        routerLinkActive="admin-shell__nav-item--active"
+        ariaCurrentWhenActive="page"
+      >
+        Orders
+      </a>
+      <a
+        class="admin-shell__nav-item"
+        routerLink="/admin/services"
+        routerLinkActive="admin-shell__nav-item--active"
+        ariaCurrentWhenActive="page"
+      >
+        Services
+      </a>
+      <a
+        class="admin-shell__nav-item"
+        routerLink="/admin/appointments"
+        routerLinkActive="admin-shell__nav-item--active"
+        ariaCurrentWhenActive="page"
+      >
+        Appointments
+      </a>
+
+      @if (canViewUsers()) {
+        <a
+          class="admin-shell__nav-item"
+          routerLink="/admin/users"
+          routerLinkActive="admin-shell__nav-item--active"
+          ariaCurrentWhenActive="page"
+        >
+          Users & Roles
+        </a>
+      }
+
+      <a
+        class="admin-shell__nav-item"
+        routerLink="/admin/profile"
+        routerLinkActive="admin-shell__nav-item--active"
+        ariaCurrentWhenActive="page"
+      >
+        Account
+      </a>
+    </nav>
+
+    <div class="admin-shell__sidebar-footer">
+      <a routerLink="/">Customer site</a>
+    </div>
+  </aside>
+
+  <section class="admin-shell__workspace">
+    <header class="admin-shell__header">
+      <div>
+        <p class="admin-shell__eyebrow">Administration</p>
+        <strong>Operations workspace</strong>
+      </div>
+
+      <div class="admin-shell__account">
+        <a
+          class="admin-shell__profile"
+          routerLink="/admin/profile"
+          aria-label="Open account profile"
+        >
+          <strong>{{ user()?.fullName || 'Admin' }}</strong>
+          <small>{{ user()?.systemRole || 'ADMIN' }}</small>
+        </a>
+        <button
+          class="admin-shell__logout"
+          type="button"
+          (click)="logout()"
+          [disabled]="isLoggingOut()"
+        >
+          {{ isLoggingOut() ? 'Đang đăng xuất...' : 'Đăng xuất' }}
+        </button>
+      </div>
+    </header>
+
+    <main id="admin-content" class="admin-shell__content">
+      <router-outlet />
+    </main>
+  </section>
+</div>

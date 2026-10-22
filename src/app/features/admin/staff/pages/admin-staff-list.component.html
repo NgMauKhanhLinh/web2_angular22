@@ -1,0 +1,80 @@
+<app-admin-catalog-shell activeItem="staff">
+  <main class="staff-page">
+    <nav class="staff-breadcrumb" aria-label="Breadcrumb"><span>Vận hành</span><span aria-hidden="true">›</span><strong>Nhân sự</strong></nav>
+    <header class="staff-heading">
+      <div><h1>Quản lý nhân sự</h1></div>
+      <span class="staff-preview-label">Giao diện mẫu · Chờ API Staff/Shift</span>
+    </header>
+    <nav class="staff-tabs" aria-label="Nhân sự">
+      <span class="staff-tab staff-tab--active" aria-current="page">Nhân viên</span>
+      <a class="staff-tab" routerLink="/admin/staff/schedule">Lịch làm việc</a>
+    </nav>
+    <section class="staff-panel">
+      <div class="staff-toolbar">
+        <label class="staff-search">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5"/><path d="m16 16 4.2 4.2"/></svg>
+          <input type="search" aria-label="Tìm tên hoặc mã nhân viên" placeholder="Tìm tên hoặc mã nhân viên..." [ngModel]="query()" (ngModelChange)="updateQuery($event)">
+        </label>
+        <div class="staff-filters">
+          <label><span class="sr-only">Vai trò</span><select aria-label="Lọc vai trò" [ngModel]="roleFilter()" (ngModelChange)="updateRole($event)">
+            <option value="ALL">Tất cả vai trò</option>
+            @for (role of roleChoices; track role) { <option [value]="role">{{ roleName(role) }}</option> }
+          </select><img class="staff-filter-chevron" src="/assets/admin-product/icon-chevron-down.svg" width="20" height="20" alt="" aria-hidden="true"></label>
+          <label><span class="sr-only">Chi nhánh</span><select aria-label="Lọc chi nhánh" [ngModel]="branchFilter()" (ngModelChange)="updateBranch($event)">
+            <option value="ALL">Tất cả chi nhánh</option>
+            @for (branch of branches; track branch) { <option [value]="branch">{{ branch }}</option> }
+          </select><img class="staff-filter-chevron" src="/assets/admin-product/icon-chevron-down.svg" width="20" height="20" alt="" aria-hidden="true"></label>
+          <label><span class="sr-only">Trạng thái</span><select aria-label="Lọc trạng thái tài khoản" [ngModel]="statusFilter()" (ngModelChange)="updateStatus($event)">
+            <option value="ALL">Tất cả trạng thái</option>
+            <option value="ACTIVE">Đang hoạt động</option>
+            <option value="BLOCKED">Đã chặn</option>
+          </select><img class="staff-filter-chevron" src="/assets/admin-product/icon-chevron-down.svg" width="20" height="20" alt="" aria-hidden="true"></label>
+        </div>
+        <a class="staff-add" routerLink="/admin/staff/new">+ Thêm nhân viên</a>
+      </div>
+      <div class="staff-table-wrap"><table>
+        <thead><tr><th>Mã nhân viên</th><th>Họ tên</th><th>Vai trò nghiệp vụ</th><th>Chi nhánh được phân công</th><th>Ca hôm nay</th><th>Trạng thái tài khoản</th><th>Thao tác</th></tr></thead>
+        <tbody>
+          @for (staff of rows(); track staff.id) {
+            <tr>
+              <td>{{ staff.id }}</td><td class="staff-name">{{ displayName(staff) }}</td>
+              <td>{{ roleName(staff.jobRole) }}</td><td>{{ staff.branches.join(' | ') }}</td>
+              <td>{{ displayShift(staff.todayShift) }}</td>
+              <td><span class="staff-status" [class.staff-status--blocked]="staff.accountStatus === 'BLOCKED'">{{ staff.accountStatus === 'ACTIVE' ? 'Đang hoạt động' : 'Đã chặn' }}</span></td>
+              <td class="staff-actions">
+                <div class="staff-action-group" role="group" [attr.aria-label]="'Thao tác ' + displayName(staff)">
+                  <a class="staff-action-button" [routerLink]="['/admin/staff', staff.id]"
+                    [attr.aria-label]="'Xem chi tiết ' + displayName(staff)"
+                    title="Xem chi tiết">
+                    <img src="/assets/admin-login/visibility-outlined.svg" width="20" height="20" alt="" aria-hidden="true">
+                  </a>
+                  <a class="staff-action-button"
+                    [routerLink]="['/admin/staff', staff.id, 'edit']"
+                    [attr.aria-label]="'Chỉnh sửa ' + displayName(staff)"
+                    title="Chỉnh sửa">
+                    <img src="/assets/admin-staff/icon-edit.svg" width="20" height="20" alt="" aria-hidden="true">
+                  </a>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr><td colspan="7" class="staff-empty"><p>Không tìm thấy nhân viên phù hợp.</p><button type="button" (click)="clearFilters()">Xóa bộ lọc</button></td></tr>
+          }
+        </tbody>
+      </table></div>
+      <footer class="staff-pagination">
+        <span>Đang hiển thị {{ rows().length }} trên tổng số {{ filtered().length }} nhân viên</span>
+        <nav aria-label="Phân trang nhân viên">
+          <button type="button" aria-label="Trang trước" [disabled]="page() === 1" (click)="changePage(page() - 1)">‹</button>
+          @for (number of [1,2,3,4,5,6,7,8,9,10]; track number) {
+            @if (number <= pages()) {
+              <button type="button" [class.staff-page-selected]="number === page()" [attr.aria-current]="number === page() ? 'page' : null" (click)="changePage(number)">{{ number }}</button>
+            }
+          }
+          <button type="button" aria-label="Trang sau" [disabled]="page() >= pages()" (click)="changePage(page() + 1)">›</button>
+        </nav>
+      </footer>
+    </section>
+    <p class="staff-disclaimer">Dữ liệu minh họa để kiểm thử FE; ca hôm nay và trạng thái thực tế sẽ được lấy từ API Staff/Shift có phân quyền.</p>
+  </main>
+</app-admin-catalog-shell>

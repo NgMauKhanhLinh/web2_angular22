@@ -1,0 +1,282 @@
+<app-admin-catalog-shell activeItem="staff">
+  <main class="staff-form-page">
+    <header class="form-head">
+      <div class="form-heading">
+        <nav class="crumb" aria-label="Đường dẫn">
+          <a routerLink="/admin/staff">Nhân sự</a>
+          <span aria-hidden="true">›</span>
+          <strong>{{ isEdit ? 'Chỉnh sửa nhân viên' : 'Thêm mới' }}</strong>
+        </nav>
+        <h1>{{ isEdit ? 'Chỉnh sửa nhân viên' : 'Thêm nhân viên' }}</h1>
+      </div>
+      <div class="head-actions">
+        <button type="button" class="secondary" (click)="cancel()">Hủy bỏ</button>
+        @if (!isEdit) {
+          <button type="button" class="secondary icon-button" (click)="submit('assign')">
+            <img src="/assets/admin-staff/calendar-today.svg" width="16" height="16" alt="" aria-hidden="true">
+            Tạo và phân ca
+          </button>
+        }
+        <button type="button" class="primary" (click)="submit('save')">{{ isEdit ? 'Lưu thay đổi' : 'Tạo nhân viên' }}</button>
+        @if (isEdit) {
+          @if (canManageAccount && staff) {
+            <button type="button" class="danger-outline" (click)="openAccountStatusDialog()">
+              {{ staff.accountStatus === 'BLOCKED' ? 'Bỏ chặn tài khoản' : 'Chặn tài khoản' }}
+            </button>
+          }
+        }
+      </div>
+    </header>
+
+    @if (isEdit && !staff) {
+      <section class="panel" role="alert">
+        <h2>Không tìm thấy nhân viên</h2>
+        <p>Không có mã {{ staffId }} trong dữ liệu mẫu. <a routerLink="/admin/staff">Quay lại danh sách nhân viên</a>.</p>
+      </section>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="submit('save')" novalidate>
+        <section class="panel">
+          <h2>{{ isEdit ? 'Hồ sơ nhân viên' : 'Thông tin nhân viên' }}</h2>
+          <div class="fields basic-fields">
+            <label>
+              <span class="field-label">Họ và tên <em>*</em></span>
+              <input formControlName="fullName" type="text" autocomplete="name" placeholder="Nhập họ và tên">
+              @if (fieldError('fullName')) { <small class="error">{{ fieldError('fullName') }}</small> }
+            </label>
+            <label>
+              <span class="field-label">Số điện thoại</span>
+              <input formControlName="phone" type="tel" autocomplete="tel" placeholder="Nhập số điện thoại">
+              @if (fieldError('phone')) { <small class="error">{{ fieldError('phone') }}</small> }
+            </label>
+            <label>
+              <span class="field-label">Vai trò nghiệp vụ <em>*</em></span>
+              <span class="select-wrap">
+                <select formControlName="jobRole">
+                  @for (role of roles; track role) { <option [value]="role">{{ labels[role] }}</option> }
+                </select>
+                <img src="/assets/admin-product/expand_more.svg" width="16" height="16" alt="" aria-hidden="true">
+              </span>
+              @if (fieldError('jobRole')) { <small class="error">{{ fieldError('jobRole') }}</small> }
+            </label>
+            <label>
+              <span class="field-label">Email liên hệ</span>
+              <input formControlName="email" type="email" autocomplete="email" placeholder="Nhập email liên hệ">
+              @if (fieldError('email')) { <small class="error">{{ fieldError('email') }}</small> }
+            </label>
+          </div>
+        </section>
+
+        <div class="lower-cards">
+          <section class="panel branch-panel">
+            <h2>Phân công chi nhánh</h2>
+            <div class="fields stacked" [class.edit-branch-fields]="isEdit">
+              <label>
+                <span class="field-label">Chi nhánh chính @if (!isEdit) { <em>*</em> }</span>
+                <span class="select-wrap">
+                  <select formControlName="homeBranch" (change)="selectHomeBranch($any($event.target).value)">
+                    <option value="">Chọn chi nhánh</option>
+                    @for (branch of branches; track branch) {
+                      <option [value]="branch">{{ branch }}</option>
+                    }
+                  </select>
+                  <img src="/assets/admin-product/expand_more.svg" width="17" height="17" alt="" aria-hidden="true">
+                </span>
+                @if (fieldError('homeBranch')) { <small class="error">{{ fieldError('homeBranch') }}</small> }
+              </label>
+              <div class="multi-field">
+                <span class="field-label">{{ isEdit ? 'Chi nhánh được phân công' : 'Chi nhánh làm việc' }} @if (!isEdit) { <em>*</em> }</span>
+                <div class="branch-picker">
+                  <button type="button" class="branch-trigger" (click)="toggleBranchMenu()"
+                    [attr.aria-expanded]="branchMenuOpen" aria-controls="staff-branch-options">
+                    <span [class.placeholder]="!selectedBranches.size">{{ branchText }}</span>
+                    <img src="/assets/admin-product/expand_more.svg" width="17" height="17" alt="" aria-hidden="true">
+                  </button>
+                  @if (branchMenuOpen) {
+                    <div class="branch-menu" id="staff-branch-options" role="group" aria-label="Danh sách chi nhánh làm việc">
+                      @for (branch of branches; track branch) {
+                        <label class="branch-option">
+                          <input type="checkbox" [checked]="selectedBranches.has(branch)"
+                            (change)="toggleBranch(branch, $any($event.target).checked)">
+                          <span>{{ branch }}</span>
+                        </label>
+                      }
+                    </div>
+                  }
+                </div>
+                @if (fieldError('assignedBranches')) { <small class="error">{{ fieldError('assignedBranches') }}</small> }
+              </div>
+            </div>
+          </section>
+
+          <section class="panel account-panel">
+            <h2>{{ isEdit ? 'Tài khoản đăng nhập' : 'Tạo tài khoản đăng nhập' }}</h2>
+            @if (isEdit) {
+              <div class="account-edit-layout">
+                <div class="account-data">
+                  <span class="field-label">Tài khoản đăng nhập</span>
+                  <span class="account-value">{{ form.controls.loginIdentifier.value || '—' }}</span>
+                </div>
+                <div class="account-state">
+                  <span class="field-label">Trạng thái tài khoản</span>
+                  <span class="status-badge" [class.status-badge--blocked]="staff?.accountStatus === 'BLOCKED'">
+                    {{ staff?.accountStatus === 'BLOCKED' ? 'Đã chặn' : 'Đang hoạt động' }}
+                  </span>
+                </div>
+                @if (canManageAccount) {
+                  <button type="button" class="secondary reset-button" (click)="openResetPassword()">Đặt lại mật khẩu</button>
+                }
+              </div>
+            } @else {
+              <div class="fields stacked">
+                <label>
+                  <span class="field-label">Tài khoản đăng nhập <em>*</em></span>
+                  <input formControlName="loginIdentifier" type="text" autocomplete="off" placeholder="Nhập tài khoản đăng nhập">
+                  @if (fieldError('loginIdentifier')) { <small class="error">{{ fieldError('loginIdentifier') }}</small> }
+                </label>
+                <label>
+                  <span class="field-label">Mật khẩu <em>*</em></span>
+                  <span class="password-wrap">
+                    <input formControlName="password" [type]="showPassword ? 'text' : 'password'"
+                      autocomplete="new-password" placeholder="Nhập mật khẩu">
+                    <button type="button" (click)="showPassword = !showPassword"
+                      [attr.aria-label]="showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'">
+                      <img [src]="showPassword ? '/assets/admin-login/visibility-off-outlined.svg' : '/assets/admin-login/visibility-outlined.svg'"
+                        width="20" height="20" alt="" aria-hidden="true">
+                    </button>
+                  </span>
+                  @if (fieldError('password')) { <small class="error">{{ fieldError('password') }}</small> }
+                </label>
+              </div>
+            }
+          </section>
+        </div>
+
+        @if (isEdit) {
+          <section class="panel schedule-panel" aria-labelledby="schedule-heading">
+            <div class="schedule-header">
+              <h2 id="schedule-heading">Lịch làm việc theo tuần</h2>
+              <app-admin-staff-week-nav
+                [monday]="weekMonday" [label]="weekLabel"
+                (previousWeek)="changeWeek(-1)" (nextWeek)="changeWeek(1)"
+                (currentWeek)="goToday()" (dateSelected)="selectWeekDate($event)">
+              </app-admin-staff-week-nav>
+            </div>
+            <div class="schedule-scroll">
+              <table class="schedule-table">
+                <thead><tr>
+                  <th>NGÀY</th><th>CHI NHÁNH</th><th>MẪU CA</th><th>KHUNG GIỜ</th><th>TRẠNG THÁI</th>
+                </tr></thead>
+                <tbody>
+                  @for (day of weekDays; track day.key) {
+                    <tr>
+                      <td><span class="shift-day"><span class="shift-day__weekday">{{ day.weekday }}</span><small class="shift-day__date">{{ day.dayMonth }}</small></span></td>
+                      <td>
+                        <span class="select-wrap">
+                          <select aria-label="Chi nhánh của {{ day.label }}" [value]="day.branch"
+                            (change)="setShift(day.key, 'branch', $any($event.target).value)"
+                            [disabled]="!day.template">
+                            <option value="">—</option>
+                            @for (branch of selectedBranches; track branch) { <option [value]="branch">{{ branch }}</option> }
+                          </select>
+                          @if (day.template) { <img src="/assets/admin-product/expand_more.svg" width="15" height="15" alt=""> }
+                        </span>
+                      </td>
+                      <td>
+                        <span class="select-wrap">
+                          <select aria-label="Mẫu ca của {{ day.label }}" [value]="day.template"
+                            (change)="setShift(day.key, 'template', $any($event.target).value)">
+                            <option value="">Chưa phân ca</option>
+                            <option value="Ca sáng">Ca sáng</option>
+                            <option value="Ca chiều">Ca chiều</option>
+                          </select>
+                          <img src="/assets/admin-product/expand_more.svg" width="15" height="15" alt="">
+                        </span>
+                      </td>
+                      <td>{{ day.hours }}</td>
+                      <td>{{ day.template && day.branch ? 'Đã xếp' : 'Chưa xếp' }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+            <p class="schedule-note">Lịch hiển thị mẫu Figma. Phân ca thực tế và xác nhận xung đột phải được Backend xử lý.</p>
+          </section>
+        }
+      </form>
+    }
+  </main>
+</app-admin-catalog-shell>
+
+@if (leaveDialogOpen) {
+  <div class="staff-leave-overlay" (keydown.escape)="resolveLeave(false)">
+    <section class="staff-leave-dialog" role="alertdialog" aria-modal="true"
+      aria-labelledby="staff-leave-title" aria-describedby="staff-leave-description" tabindex="-1">
+      <h2 id="staff-leave-title">Rời trang khi chưa lưu?</h2>
+      <p id="staff-leave-description">Bạn đã nhập hoặc thay đổi thông tin nhân viên. Nếu rời trang, các thay đổi chưa lưu sẽ bị mất.</p>
+      <div class="staff-leave-actions">
+        <button type="button" class="secondary" autofocus (click)="resolveLeave(false)">Tiếp tục chỉnh sửa</button>
+        <button type="button" class="primary" (click)="resolveLeave(true)">Rời trang</button>
+      </div>
+    </section>
+  </div>
+}
+
+@if (resetPasswordOpen && staff && canManageAccount) {
+  <div class="staff-reset-overlay" (keydown.escape)="closeResetPassword()">
+    <section class="staff-reset-dialog" role="dialog" aria-modal="true"
+      aria-labelledby="staff-reset-title" aria-describedby="staff-reset-description" tabindex="-1">
+      <div class="staff-reset-heading">
+        <h2 id="staff-reset-title">Đặt lại mật khẩu</h2>
+        <button type="button" class="staff-reset-close" aria-label="Đóng" (click)="closeResetPassword()">×</button>
+      </div>
+      <p id="staff-reset-description">{{ displayName }} · {{ staffId }}</p>
+      <p class="staff-reset-username">Tài khoản đăng nhập: {{ staff.loginUsername || '—' }}</p>
+      <div class="staff-reset-fields">
+        <label><span>Mật khẩu mới <em>*</em></span>
+          <span class="staff-reset-input">
+            <input [type]="resetVisible ? 'text' : 'password'" autocomplete="new-password"
+              placeholder="Nhập mật khẩu mới" [value]="newPassword"
+              (input)="newPassword=$any($event.target).value; resetError=''">
+            <button type="button" [attr.aria-label]="resetVisible ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'"
+              (click)="resetVisible=!resetVisible">
+              <img [src]="resetVisible ? '/assets/admin-login/visibility-off-outlined.svg' : '/assets/admin-login/visibility-outlined.svg'"
+                width="18" height="18" alt="" aria-hidden="true">
+            </button>
+          </span>
+        </label>
+        <label><span>Xác nhận mật khẩu mới <em>*</em></span>
+          <span class="staff-reset-input">
+            <input [type]="resetConfirmVisible ? 'text' : 'password'" autocomplete="new-password"
+              placeholder="Nhập lại mật khẩu mới" [value]="confirmPassword"
+              (input)="confirmPassword=$any($event.target).value; resetError=''">
+            <button type="button" [attr.aria-label]="resetConfirmVisible ? 'Ẩn mật khẩu xác nhận' : 'Hiện mật khẩu xác nhận'"
+              (click)="resetConfirmVisible=!resetConfirmVisible">
+              <img [src]="resetConfirmVisible ? '/assets/admin-login/visibility-off-outlined.svg' : '/assets/admin-login/visibility-outlined.svg'"
+                width="18" height="18" alt="" aria-hidden="true">
+            </button>
+          </span>
+        </label>
+      </div>
+      @if (resetError) { <p class="staff-reset-error" role="alert">{{ resetError }}</p> }
+      <div class="staff-reset-actions">
+        <button type="button" class="secondary" (click)="closeResetPassword()">Hủy</button>
+        <button type="button" class="primary" (click)="validateResetPassword()">Đặt lại mật khẩu</button>
+      </div>
+      <p class="staff-reset-note">Chưa kết nối API Backend. Không lưu hoặc thay đổi mật khẩu thật.</p>
+    </section>
+  </div>
+}
+
+@if (accountStatusDialogOpen && staff && canManageAccount) {
+  <div class="staff-leave-overlay" (keydown.escape)="closeAccountStatusDialog()">
+    <section class="staff-leave-dialog" role="alertdialog" aria-modal="true"
+      aria-labelledby="staff-account-status-title" tabindex="-1">
+      <h2 id="staff-account-status-title">{{ staff.accountStatus === 'BLOCKED' ? 'Bỏ chặn tài khoản?' : 'Chặn tài khoản?' }}</h2>
+      <p>{{ displayName }} · {{ staffId }}. Đây là bản FE preview; chưa kết nối API nên trạng thái tài khoản sẽ không thay đổi.</p>
+      <div class="staff-leave-actions">
+        <button type="button" class="secondary" (click)="closeAccountStatusDialog()">Hủy</button>
+        <button type="button" class="danger-outline" (click)="confirmAccountStatusPreview()">Xác nhận</button>
+      </div>
+    </section>
+  </div>
+}

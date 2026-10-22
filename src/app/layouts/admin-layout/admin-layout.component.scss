@@ -1,0 +1,243 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.admin-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+.admin-shell__skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 1000;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #0f172a;
+  transform: translateY(-160%);
+}
+
+.admin-shell__skip-link:focus {
+  transform: translateY(0);
+}
+
+.admin-shell__sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 18px;
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.admin-shell__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 8px 24px;
+  border-bottom: 1px solid rgb(255 255 255 / 12%);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.admin-shell__brand-mark {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.admin-shell__brand strong,
+.admin-shell__brand small {
+  display: block;
+}
+
+.admin-shell__brand small {
+  margin-top: 2px;
+  color: #94a3b8;
+}
+
+.admin-shell__nav {
+  display: grid;
+  gap: 6px;
+  padding: 24px 0;
+}
+
+.admin-shell__nav-item {
+  padding: 11px 12px;
+  border-radius: 10px;
+  color: #cbd5e1;
+  font-size: 0.925rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.admin-shell__nav-item:hover {
+  background: rgb(255 255 255 / 6%);
+  color: #ffffff;
+}
+
+.admin-shell__nav-item--active {
+  background: rgb(255 255 255 / 10%);
+  color: #ffffff;
+}
+
+.admin-shell__sidebar-footer {
+  margin-top: auto;
+  padding: 18px 12px 0;
+  border-top: 1px solid rgb(255 255 255 / 12%);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.admin-shell__sidebar-footer a {
+  color: #94a3b8;
+  text-decoration: none;
+}
+
+.admin-shell__sidebar-footer a:hover {
+  color: #ffffff;
+}
+
+.admin-shell__workspace {
+  min-width: 0;
+}
+
+.admin-shell__header {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 12px 28px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+
+.admin-shell__eyebrow {
+  margin: 0 0 3px;
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.admin-shell__account {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-shell__profile {
+  min-width: 112px;
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  color: #0f172a;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.admin-shell__profile:hover {
+  border-color: #94a3b8;
+  background: #f8fafc;
+}
+
+.admin-shell__profile strong,
+.admin-shell__profile small {
+  display: block;
+}
+
+.admin-shell__profile strong {
+  font-weight: 700;
+}
+
+.admin-shell__profile small {
+  margin-top: 2px;
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.admin-shell__logout {
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #ffffff;
+  color: #0f172a;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.admin-shell__logout:hover:not(:disabled) {
+  border-color: #94a3b8;
+  background: #f8fafc;
+}
+
+.admin-shell__logout:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.admin-shell__content {
+  min-height: calc(100vh - 72px);
+  padding: 32px;
+}
+
+@media (max-width: 760px) {
+  .admin-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-shell__sidebar {
+    position: static;
+    height: auto;
+  }
+
+  .admin-shell__nav {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .admin-shell__nav-item {
+    white-space: nowrap;
+  }
+
+  .admin-shell__sidebar-footer {
+    display: none;
+  }
+
+  .admin-shell__account {
+    gap: 6px;
+  }
+
+  .admin-shell__profile {
+    min-width: 0;
+  }
+
+  .admin-shell__logout {
+    padding: 0 10px;
+  }
+
+  .admin-shell__content {
+    padding: 24px 16px;
+  }
+}

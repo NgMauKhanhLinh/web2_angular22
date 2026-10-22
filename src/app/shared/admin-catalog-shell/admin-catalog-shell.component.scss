@@ -1,0 +1,380 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  font-family: Roboto, Arial, sans-serif;
+  background: white;
+  color: #202e45;
+}
+* { box-sizing: border-box; }
+.catalog-shell { min-height: 100vh; }
+.catalog-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  height: 88px;
+  padding: 7px 32px;
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+}
+.catalog-header__brand {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  width: 166px;
+  height: 72px;
+  text-decoration: none;
+}
+.catalog-header__brand img {
+  display: block;
+  width: 166px;
+  height: 72px;
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+  image-rendering: auto;
+}
+.catalog-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.catalog-header__view-site {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 16px;
+  border: 1px solid #0d47a1;
+  border-radius: 8px;
+  background: #fff;
+  color: #0d47a1;
+  font-size: 14px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.catalog-header__notification {
+  display: block;
+  width: 41px;
+  height: 41px;
+  flex: 0 0 41px;
+  object-fit: contain;
+}
+.catalog-header__profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 184px;
+  height: 48px;
+  padding: 5px 10px;
+  border: 1px solid #dee5f0;
+  border-radius: 12px;
+  background: #fff;
+  color: #202e45;
+  font-size: 14px;
+  line-height: 18px;
+  text-decoration: none;
+}
+.catalog-header__avatar {
+  display: block;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  object-fit: contain;
+  image-rendering: auto;
+}
+.catalog-header__identity {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+}
+.catalog-header__identity small {
+  display: block;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 16px;
+  white-space: nowrap;
+}
+.catalog-header__chevron {
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  object-fit: contain;
+}
+.catalog-layout {
+  display: grid;
+  grid-template-columns: 342px minmax(0, 1fr);
+  align-items: start;
+  min-height: calc(100vh - 88px);
+}
+.catalog-sidebar {
+  position: sticky;
+  top: 88px;
+  align-self: start;
+  height: calc(100vh - 88px);
+  height: calc(100dvh - 88px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 24px 16px;
+  background: #e5f6fd;
+  border-right: 1px solid #e2e8f0;
+  scrollbar-width: thin;
+}
+.catalog-sidebar__link,
+.catalog-sidebar__group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  margin-bottom: 4px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: #1b273b;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.catalog-sidebar__link > img,
+.catalog-sidebar__group > img:first-child {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  object-fit: contain;
+}
+.catalog-sidebar__group {
+  background: #0d47a1;
+  color: #fff;
+  font-weight: 700;
+}
+.catalog-sidebar__group-chevron {
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  margin-left: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+/* A single shaded panel makes the expanded Sales submenu visibly nested. */
+.catalog-sidebar__children {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 5px 0 12px;
+  padding: 6px;
+  border: 0;
+  border-radius: 0 0 10px 10px;
+  background: #f1f5f9;
+}
+.catalog-sidebar__children .catalog-sidebar__sub {
+  min-height: 39px;
+  padding-left: 31px;
+  border-radius: 7px;
+}
+.catalog-sidebar__children a.catalog-sidebar__sub:not(.catalog-sidebar__sub--active):hover {
+  background: #d4ebf9;
+}
+.catalog-sidebar__children .catalog-sidebar__sub--active {
+  background: rgba(0, 88, 190, 0.06);
+  color: #0d47a1;
+  font-weight: 700;
+}
+.catalog-sidebar__sub {
+  display: flex;
+  align-items: center;
+  min-height: 41px;
+  padding: 8px 16px 8px 40px;
+  border-radius: 8px;
+  color: #1b273b;
+  font-size: 16px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.catalog-sidebar__sub--active {
+  background: rgba(0, 88, 190, 0.06);
+  color: #0d47a1;
+  font-weight: 700;
+}
+.catalog-layout__content {
+  min-width: 0;
+}
+@media (max-width: 1100px) {
+  .catalog-layout { grid-template-columns: 230px minmax(0, 1fr); }
+  .catalog-sidebar { padding: 20px 10px; }
+  .catalog-sidebar__link,
+  .catalog-sidebar__group { font-size: 14px; }
+  .catalog-sidebar__sub { font-size: 14px; }
+}
+@media (max-width: 800px) {
+  .catalog-header { height: 72px; padding: 6px 16px; }
+  .catalog-header__brand,
+  .catalog-header__brand img { width: 130px; height: 58px; }
+  .catalog-layout { display: block; min-height: calc(100vh - 72px); }
+  .catalog-sidebar { display: none; }
+  .catalog-header__view-site { display: none; }
+}
+@media (max-width: 550px) {
+  .catalog-header__notification { display: none; }
+  .catalog-header__profile { width: auto; }
+  .catalog-header__identity { display: none; }
+}
+
+
+/* Shared navigation: the same Product shell supports Service Catalog.
+   The expand icons are exported from Figma > Design System > Navigation. */
+.catalog-sidebar__group {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #1b273b;
+  text-align: left;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.catalog-sidebar__group:not(.catalog-sidebar__group--active) > img:first-child {
+  filter: brightness(0);
+}
+
+.catalog-sidebar__group:hover {
+  background: #d4ebf9;
+}
+
+.catalog-sidebar__group--active,
+.catalog-sidebar__group--active:hover {
+  background: #0d47a1;
+  color: #fff;
+  font-weight: 700;
+}
+
+.catalog-sidebar__group--active > img:first-child {
+  filter: brightness(0) invert(1);
+}
+
+.catalog-sidebar__group .catalog-sidebar__group-chevron {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  margin-left: auto;
+  filter: none;
+}
+
+.catalog-sidebar__group--active .catalog-sidebar__group-chevron {
+  filter: brightness(0) invert(1);
+}
+
+.catalog-sidebar__children[hidden] {
+  display: none;
+}
+
+.catalog-sidebar__children--services {
+  margin-top: 4px;
+  margin-bottom: 16px;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.catalog-sidebar__children--services .catalog-sidebar__sub {
+  min-height: 41px;
+  padding-left: 40px;
+}
+
+.catalog-sidebar__children--services .catalog-sidebar__sub--active {
+  background: rgba(0, 88, 190, 0.06);
+}
+
+.catalog-sidebar__sub--disabled {
+  /* Figma displays all labels, but pages not yet built do not navigate. */
+  color: #1b273b;
+  opacity: 1;
+  cursor: default;
+  user-select: text;
+}
+
+.catalog-sidebar__group:focus-visible {
+  outline: 2px solid #0d47a1;
+  outline-offset: 2px;
+}
+
+/* Unified sidebar navigation: tree line instead of child section panel. */
+.catalog-sidebar__group[aria-expanded="true"],
+.catalog-sidebar__group[aria-expanded="true"]:hover {
+  background: #0d47a1;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 9px;
+  margin-bottom: 6px;
+}
+.catalog-sidebar__group[aria-expanded="true"] > img:first-child,
+.catalog-sidebar__group[aria-expanded="true"] .catalog-sidebar__group-chevron {
+  filter: brightness(0) invert(1);
+}
+/* White source icons must be dark in every collapsed, unselected group. */
+.catalog-sidebar__group[aria-expanded="false"] > img:first-child {
+  filter: brightness(0);
+}
+.catalog-sidebar__group[aria-expanded="false"] .catalog-sidebar__group-chevron {
+  filter: none;
+}
+.catalog-sidebar__group[aria-expanded="false"].catalog-sidebar__group--active {
+  background: transparent;
+  color: #1b273b;
+  font-weight: 500;
+}
+.catalog-sidebar__group[aria-expanded="false"].catalog-sidebar__group--active:hover {
+  background: #d4ebf9;
+}
+/* Apply the same nested-line design to all group categories. */
+.catalog-sidebar__children,
+.catalog-sidebar__children--services {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 0 16px 20px;
+  padding: 2px 0 4px 14px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  position: relative;
+}
+.catalog-sidebar__children::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  bottom: 8px;
+  left: 3px;
+  width: 2px;
+  border-radius: 2px;
+  background: #9aaec3;
+}
+.catalog-sidebar__children .catalog-sidebar__sub,
+.catalog-sidebar__children--services .catalog-sidebar__sub {
+  min-height: 40px;
+  padding: 8px 11px 8px 16px;
+  border-radius: 8px;
+  font-size: 15px;
+  background: transparent;
+}
+.catalog-sidebar__children .catalog-sidebar__sub--active,
+.catalog-sidebar__children--services .catalog-sidebar__sub--active {
+  background: rgba(0, 88, 190, 0.06);
+  color: #0d47a1;
+  font-weight: 700;
+}
+.catalog-sidebar__children .catalog-sidebar__sub:not(.catalog-sidebar__sub--active):hover {
+  background: #d4ebf9;
+}
+
+/* Match parent hover on the currently selected submenu link as well. */
+.catalog-sidebar__children a.catalog-sidebar__sub.catalog-sidebar__sub--active:hover {
+  background: #d4ebf9;
+}

@@ -1,0 +1,69 @@
+<div class="customer-shell">
+  <a class="customer-shell__skip-link" href="#customer-content">Skip to content</a>
+
+  <header class="customer-shell__header">
+    <div class="customer-shell__header-inner">
+      <a class="customer-shell__brand" routerLink="/" aria-label="Dr. Pet's House home">
+        <span class="customer-shell__brand-mark" aria-hidden="true">DP</span>
+        <span>
+          <strong>Dr. Pet's House</strong>
+          <small>Pet clinic & shop</small>
+        </span>
+      </a>
+
+      <nav class="customer-shell__nav" aria-label="Customer navigation">
+        <a
+          routerLink="/"
+          routerLinkActive="customer-shell__nav-link--active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          ariaCurrentWhenActive="page"
+        >
+          Home
+        </a>
+        <a
+          routerLink="/products"
+          routerLinkActive="customer-shell__nav-link--active"
+          ariaCurrentWhenActive="page"
+        >
+          Products
+        </a>
+        <a
+          routerLink="/booking"
+          routerLinkActive="customer-shell__nav-link--active"
+          ariaCurrentWhenActive="page"
+        >
+          Booking
+        </a>
+        <a
+          routerLink="/pets"
+          routerLinkActive="customer-shell__nav-link--active"
+          ariaCurrentWhenActive="page"
+        >
+          Pets
+        </a>
+        <a
+          routerLink="/orders"
+          routerLinkActive="customer-shell__nav-link--active"
+          ariaCurrentWhenActive="page"
+        >
+          Orders
+        </a>
+      </nav>
+
+      <div class="customer-shell__account" aria-label="Account area">Account</div>
+    </div>
+  </header>
+
+  <main id="customer-content" class="customer-shell__content">
+    <router-outlet />
+  </main>
+
+  <footer class="customer-shell__footer">
+    <div>
+      <strong>Dr. Pet's House</strong>
+      <p>Customer shell foundation for clinic and e-commerce features.</p>
+    </div>
+
+    <p class="customer-shell__footer-note">Angular shared foundation</p>
+  </footer>
+</div>

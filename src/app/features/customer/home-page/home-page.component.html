@@ -1,0 +1,120 @@
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">Trung tâm chăm sóc thú cưng</p>
+    <img class="hero-logo" src="/assets/customer/images/home/hero-logo.png" alt="Dr. Pet's House" />
+    <p class="hero-summary">
+      Dịch vụ y tế chu đáo, không gian spa thư giãn và những sản phẩm chất lượng cho người bạn bốn chân của bạn.
+    </p>
+    <div class="hero-actions">
+      <a class="button button-primary" routerLink="/dat-lich">Đặt lịch ngay</a>
+      <a class="button button-light" routerLink="/cua-hang">Mua sắm ngay</a>
+    </div>
+  </div>
+  <div class="hero-art">
+    <img src="/assets/customer/images/home/hero-pets.png" alt="Chó và mèo được chăm sóc tại Dr. Pet's House" />
+  </div>
+</section>
+
+<section class="about section-wrap">
+  <img class="about-image" src="/assets/customer/images/home/about-team.png" alt="Đội ngũ Dr. Pet's House" />
+  <div class="about-copy">
+    <p class="eyebrow">Câu chuyện của chúng tôi</p>
+    <h1>Chăm sóc thú cưng toàn diện</h1>
+    <p>
+      Dr. Pet's House ra đời với sứ mệnh mang đến một hệ sinh thái chăm sóc thú cưng thông minh và tin cậy.
+    </p>
+    <ul>
+      <li *ngFor="let feature of features()">{{ feature }}</li>
+    </ul>
+    <a class="text-link" routerLink="/ve-chung-toi">Tìm hiểu thêm về chúng tôi →</a>
+  </div>
+</section>
+
+<section class="services-section" id="homepage-services">
+  <img class="services-cat-decoration" src="/assets/customer/images/home/cat-deco.png" alt="" aria-hidden="true" />
+  <div class="section-wrap vertical">
+    <h2 class="services-heading"><span>Dịch vụ</span><br />chúng tôi cung cấp</h2>
+    <p class="section-intro">
+      Dr.Pet’s House mang đến hệ sinh thái chăm sóc thú cưng hiện đại với đầy đủ dịch vụ từ khám chữa bệnh, chăm sóc làm đẹp đến mua sắm sản phẩm chất lượng.
+    </p>
+    <div class="service-grid">
+      <article class="service-card" *ngFor="let service of services()">
+        <img [src]="service.image" [alt]="service.title" />
+        <a class="service-card-copy" [routerLink]="service.link">
+          <h3>{{ service.title }}</h3>
+          <p>{{ service.text }}</p>
+          <span class="service-card-arrow" aria-hidden="true">→</span>
+        </a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="shop-section section-wrap vertical">
+  <h2>Pet shop</h2>
+  <nav class="home-category-list" aria-label="Danh mục sản phẩm">
+    <a
+      class="home-category"
+      *ngFor="let category of categories()"
+      routerLink="/san-pham"
+      [queryParams]="{ category: category.name }"
+    >
+      <span class="home-category-icon">
+        <img [src]="category.image" [alt]="category.name" />
+      </span>
+      <strong>{{ category.name }}</strong>
+    </a>
+  </nav>
+
+  <div class="home-product-grid">
+    <app-product-card
+      *ngFor="let product of products()"
+      [product]="product"
+      (addToCart)="onAddToCart($event)"
+    ></app-product-card>
+  </div>
+
+  <a class="button button-primary" routerLink="/san-pham">Xem tất cả sản phẩm</a>
+</section>
+
+<section class="doctors-section">
+  <div class="section-wrap vertical">
+    <p class="eyebrow">Đội ngũ chuyên môn</p>
+    <h2>Những người bạn đồng hành của bé</h2>
+    <div class="doctor-grid">
+      <article class="doctor-card" *ngFor="let doctor of doctors()">
+        <img [src]="doctor.image" [alt]="doctor.name" />
+        <h3>{{ doctor.name }}</h3>
+        <p>Bác sĩ thú y</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="home-blog-section">
+  <div class="home-blog-layout">
+    <section class="home-featured-post" aria-labelledby="featured-post-title">
+      <div class="home-blog-heading">
+        <h2>Bài viết nổi bật</h2>
+      </div>
+      <a class="home-featured-image" routerLink="/blog" aria-label="Đọc bài viết nổi bật">
+        <img [src]="featuredPost().image" [alt]="featuredPost().title" />
+      </a>
+      <p class="home-post-meta">{{ featuredPost().author }} <span>·</span> {{ featuredPost().date }}</p>
+      <h3 id="featured-post-title">{{ featuredPost().title }}</h3>
+      <p class="home-featured-description">{{ featuredPost().description }}</p>
+      <a class="button button-primary home-read-more" routerLink="/blog">ĐỌC THÊM <span aria-hidden="true">→</span></a>
+    </section>
+
+    <section class="home-latest-posts" aria-labelledby="all-posts-title">
+      <div class="home-blog-heading">
+        <h2 id="all-posts-title">Bài viết mới</h2>
+        <a routerLink="/blog">Xem tất cả <span aria-hidden="true">→</span></a>
+      </div>
+      <article class="home-latest-post" *ngFor="let post of latestPosts()">
+        <p class="home-post-meta">{{ post.author }} <span>·</span> {{ post.date }}</p>
+        <a [routerLink]="post.link">{{ post.title }}</a>
+      </article>
+    </section>
+  </div>
+</section>

@@ -1,0 +1,74 @@
+/* Exact Product Management measurements from Figma node 6037:20512.
+   The 1034px table intentionally scrolls horizontally below its design width. */
+.product-list-page { padding: 32px; }
+.page-header { margin-bottom: 24px; padding-bottom: 8px; }
+h1 { font-size: 28px; letter-spacing: -.28px; line-height: 34px; font-weight: 600; }
+.lifecycle-tabs { height: 46px; margin-bottom: 24px; }
+.lifecycle-tabs button { min-width: 180px; height: 46px; padding: 10px 24px; font-size: 16px; line-height: 24px; font-weight: 500; letter-spacing: .2px; }
+.lifecycle-tabs button.selected::after { height: 3px; }
+.product-panel { border: 0; border-radius: 0; padding: 0; overflow: visible; }
+.toolbar { min-height: 64px; padding: 12px; margin-bottom: 20px; border: 1px solid #e2e8f0; border-radius: 12px; }
+.search { max-width: 430px; }
+.search input { min-height: 40px; border-color: #c3c6d4; border-radius: 8px; font-size: 14px; padding-left: 41px; }
+.search svg { top: 12px; }
+.toolbar-actions { gap: 8px; }
+.toolbar-actions .primary-btn, .toolbar-actions .outline-btn { min-height: 40px; font-size: 14px; padding: 9px 14px; border-radius: 8px; }
+.filter-panel { top: 67px; right: 122px; }
+.table-scroll { border: 1px solid #e2e8f0; border-bottom: 0; border-radius: 12px 12px 0 0; }
+table { min-width: 1034px; width: 100%; table-layout: fixed; font-size: 12px; border-collapse: collapse; }
+th,td { padding: 0 16px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
+th { height: 44px; font-weight: 700; background: #f8fafc; }
+td { height: 76px; }
+th:nth-child(1),td:nth-child(1) { width: 50px; text-align: left; }
+th:nth-child(2),td:nth-child(2) { width: 80px; text-align: center; }
+th:nth-child(3),td:nth-child(3) { width: 152px; }
+th:nth-child(4),td:nth-child(4) { width: 140px; }
+th:nth-child(5),td:nth-child(5) { width: 100px; }
+th:nth-child(6),td:nth-child(6) { width: 105px; text-align: center; }
+th:nth-child(7),td:nth-child(7) { width: 80px; text-align: center; }
+th:nth-child(8),td:nth-child(8) { width: 110px; text-align: center; }
+th:nth-child(9),td:nth-child(9) { width: 132px; text-align: center; }
+th:nth-child(10),td:nth-child(10) { width: 85px; text-align: center; }
+.thumbnail { width: 40px; height: 40px; margin: auto; border-radius: 4px; }
+.product-name strong { font-weight: 500; }
+.price { min-width: 0; }
+.sku { max-width: 100%; overflow: hidden; }
+.status { min-height: 22px; padding: 2px 10px; font-size: 12px; line-height: 16px; }
+.pagination { min-height: 60px; padding: 8px 12px; border: 1px solid #e2e8f0; border-top: 0; border-radius: 0 0 12px 12px; }
+.pagination-buttons > * { min-width: 44px; width: 44px; height: 44px; }
+.pagination-buttons span { min-width: 48px; width: 48px; }
+@media (max-width: 900px) {
+  .product-list-page { padding: 24px 16px; }
+  .filter-panel { right: 12px; }
+}
+@media (max-width: 600px) {
+  h1 { font-size: 24px; }
+  .lifecycle-tabs button { min-width: 150px; }
+  .toolbar { gap: 12px; }
+  .filter-panel { top: 108px; }
+}
+
+/* Differentiate restore from archive without changing table alignment. */
+.actions .restore-action { color: #0d47a1; }
+.actions .restore-action:hover:not(:disabled),
+.actions .restore-action:focus-visible { background: #e7f2fc; border-radius: 6px; }
+.actions .restore-action:disabled { opacity: .45; }
+
+.product-list-notice {
+  display:flex; justify-content:space-between; align-items:center; gap:12px;
+  margin:0 0 18px; padding:12px 16px;
+  color:#166534; background:#eaf8ee; border:1px solid #bbebcc; border-radius:8px;
+  font-size:14px; line-height:1.5;
+}
+.product-list-notice button {
+  flex:0 0 auto; display:grid; place-items:center; width:26px; height:26px;
+  border:0; border-radius:5px; color:#166534; background:transparent;
+  font-size:20px; cursor:pointer;
+}
+.product-list-notice button:hover {background:#d1f0da;}
+
+.pagination-buttons .pagination-page{width:44px;min-width:44px;height:44px;font-size:14px;cursor:pointer;border-right:1px solid #e2e8f0}
+.pagination-buttons .pagination-page--active{background:#e5f6fd;color:#0d47a1;box-shadow:inset 0 0 0 1px #0d47a1;font-weight:700}
+.pagination-buttons .pagination-page:hover:not(:disabled):not(.pagination-page--active){background:#f1f5f9}
+.pagination-buttons .pagination-page:focus-visible{outline:2px solid #0d47a1;outline-offset:-3px}
+.pagination-buttons{flex-wrap:wrap}

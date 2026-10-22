@@ -1,0 +1,134 @@
+<main class="admin-login">
+  <section class="login-card" aria-labelledby="admin-login-title">
+    <img class="art-layer" src="https://www.figma.com/api/mcp/asset/7d5938f8-49ee-41f3-abae-5a6cc70bc329/5e9db.svg" alt="" aria-hidden="true" />
+    <img class="art-layer" src="https://www.figma.com/api/mcp/asset/7d5938f8-49ee-41f3-abae-5a6cc70bc329/71755.svg" alt="" aria-hidden="true" />
+    <img class="art-layer" src="https://www.figma.com/api/mcp/asset/7d5938f8-49ee-41f3-abae-5a6cc70bc329/ceb24.svg" alt="" aria-hidden="true" />
+    <img class="art-layer" src="https://www.figma.com/api/mcp/asset/7d5938f8-49ee-41f3-abae-5a6cc70bc329/93096.svg" alt="" aria-hidden="true" />
+
+    <div class="mascot-frame" aria-hidden="true">
+      <img
+        class="mascot-art"
+        src="https://www.figma.com/api/mcp/asset/7d5938f8-49ee-41f3-abae-5a6cc70bc329/ad088.png"
+        alt=""
+      />
+    </div>
+
+    <img class="art-layer art-layer--foreground" src="https://www.figma.com/api/mcp/asset/7d5938f8-49ee-41f3-abae-5a6cc70bc329/e0bb6.svg" alt="" aria-hidden="true" />
+
+    <div class="paw-frame paw-frame--left" aria-hidden="true">
+      <img
+        class="paw-art"
+        src="https://www.figma.com/api/mcp/asset/7d5938f8-49ee-41f3-abae-5a6cc70bc329/004b7.png"
+        alt=""
+      />
+    </div>
+    <div class="paw-frame paw-frame--right" aria-hidden="true">
+      <img
+        class="paw-art"
+        src="https://www.figma.com/api/mcp/asset/7d5938f8-49ee-41f3-abae-5a6cc70bc329/21d00.png"
+        alt=""
+      />
+    </div>
+
+    <img
+      class="botanical-art"
+      src="/assets/admin-login/botanical.svg"
+      alt=""
+      aria-hidden="true"
+    />
+
+    <div class="leaf-frame leaf-frame--upper" aria-hidden="true">
+      <img
+        class="leaf-overlay"
+        src="/assets/admin-login/leaf-upper.svg"
+        alt=""
+      />
+    </div>
+    <div class="leaf-frame leaf-frame--lower" aria-hidden="true">
+      <img
+        class="leaf-overlay"
+        src="/assets/admin-login/leaf-lower.svg"
+        alt=""
+      />
+    </div>
+<img class="art-layer art-layer--marks" src="/assets/admin-login/attention-marks.svg" alt="" aria-hidden="true" />
+
+    <section class="brand-identity" aria-label="Dr. Pet's House">
+      <img
+        class="brand-logo"
+        src="https://www.figma.com/api/mcp/asset/7d5938f8-49ee-41f3-abae-5a6cc70bc329/a7e9d.png"
+        alt="Dr. Pet's House"
+      />
+      <div class="brand-accent" aria-hidden="true"></div>
+      <p class="brand-copy">Chỉn chu để chăm sóc<br />tốt hơn</p>
+    </section>
+
+    <form class="login-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <header class="login-heading">
+        <div class="login-heading__accent" aria-hidden="true"></div>
+        <p class="login-heading__eyebrow">ADMIN PORTAL</p>
+        <h1 id="admin-login-title">Chào mừng trở lại!</h1>
+      </header>
+
+      <div class="credentials-block">
+        <div class="field-stack">
+          <label class="field" [class.field--invalid]="showError('identifier')">
+            <span class="field__icon field__identifier-icon" aria-hidden="true"></span>
+            <input
+              type="text"
+              autocomplete="username"
+              placeholder="Tài khoản"
+              formControlName="identifier"
+              aria-label="Tài khoản"
+            />
+          </label>
+          @if (showError('identifier')) {
+            <p class="field-error">Vui lòng nhập tài khoản.</p>
+          }
+        </div>
+
+        <div class="field-stack">
+          <label class="field" [class.field--invalid]="showError('password')">
+            <img class="field__icon" src="/assets/admin-login/lock-outlined.svg" alt="" aria-hidden="true" />
+            <input
+              [type]="passwordVisible() ? 'text' : 'password'"
+              autocomplete="current-password"
+              placeholder="Mật khẩu"
+              formControlName="password"
+              aria-label="Mật khẩu"
+            />
+            <button
+              class="visibility-button"
+              type="button"
+              (click)="togglePasswordVisibility()"
+              [attr.aria-label]="passwordVisible() ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'"
+              [attr.aria-pressed]="passwordVisible()"
+            >
+              <span
+                class="visibility-icon"
+                [class.visibility-icon--off]="passwordVisible()"
+                aria-hidden="true"
+              ></span>
+            </button>
+          </label>
+          @if (showError('password')) {
+            <p class="field-error">Mật khẩu phải có ít nhất 8 ký tự.</p>
+          }
+        </div>
+
+        
+
+        @if (apiError()) {
+          <p class="login-error" role="alert">{{ apiError() }}</p>
+        }
+
+        <div class="login-actions">
+          <button class="login-button" type="submit" [disabled]="isSubmitting()">
+            {{ isSubmitting() ? 'ĐANG ĐĂNG NHẬP...' : 'ĐĂNG NHẬP' }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </section>
+</main>
+

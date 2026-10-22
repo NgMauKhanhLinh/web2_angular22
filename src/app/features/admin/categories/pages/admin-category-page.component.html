@@ -1,0 +1,160 @@
+<div class="category-page">
+  <app-admin-catalog-shell activeItem="categories">
+<main class="main">
+      <header class="page-heading">
+        <div>
+          
+          <h1>Quản lý danh mục</h1>
+        </div>
+      </header>
+
+      <section class="list-panel" aria-label="Danh sách danh mục">
+        <div class="list-toolbar">
+          <div class="search-field">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <circle cx="10.8" cy="10.8" r="6.5"></circle>
+              <path d="m16 16 4.2 4.2"></path>
+            </svg>
+            <input type="search" [(ngModel)]="searchTerm"
+              placeholder="Tìm theo tên danh mục..." aria-label="Tìm danh mục"
+              (ngModelChange)="onSearchInput($event)" (keyup.enter)="applyFilters()">
+          </div>
+          <div class="toolbar-actions">
+            <label class="filter-label">
+              Trạng thái
+              <select [(ngModel)]="statusFilter" (change)="applyFilters()" aria-label="Lọc theo trạng thái">
+                <option value="ALL">Tất cả</option>
+                <option value="ACTIVE">Đang hoạt động</option>
+                <option value="INACTIVE">Tạm ngưng</option>
+              </select>
+            </label>
+            <button type="button" class="btn-primary" (click)="openCreate()">
+              <span aria-hidden="true">＋</span> Thêm danh mục
+            </button>
+          </div>
+        </div>
+
+        
+        @if (errorMessage()) {
+
+          <button type="button" class="btn-outline retry" (click)="loadPage(null)">Thử lại</button>
+        }
+
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">STT</th>
+                <th scope="col">Tên danh mục</th>
+                <th scope="col">Slug</th>
+                <th scope="col">Danh mục cha</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              @if (loading()) {
+                <tr><td colspan="6" class="empty">Đang tải danh mục...</td></tr>
+              } @else if (categories().length === 0) {
+                <tr><td colspan="6" class="empty">Chưa có danh mục phù hợp. Bạn có thể tạo danh mục mới.</td></tr>
+              } @else {
+                @for (category of categories(); track category.id) {
+                  <tr>
+                    <td>{{ $index + 1 + (pageNumber - 1) * pageSize }}</td>
+                    <td class="category-name">{{ category.name }}</td>
+                    <td class="slug" [title]="'Slug đang lưu trên Backend: ' + category.slug"><code>{{ category.slug }}</code></td>
+                    <td>{{ parentName(category.parentId) }}</td>
+                    <td>
+                      <span class="status" [class.status--active]="category.status === 'ACTIVE'"
+                        [class.status--inactive]="category.status === 'INACTIVE'">
+                        {{ category.status === 'ACTIVE' ? 'Đang hoạt động' : 'Tạm ngưng' }}
+                      </span>
+                    </td>
+                    <td>
+                      <button type="button" class="icon-button"
+                        [attr.aria-label]="'Chỉnh sửa danh mục ' + category.name"
+                        title="Chỉnh sửa danh mục" (click)="openEdit(category)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                          stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          <path d="m4 16.8-.7 3.9 3.9-.7L18 9.2 14.8 6 4 16.8Z"></path>
+                          <path d="m13.8 7 3.2 3.2M14.8 6l2.4-2.4a2.2 2.2 0 0 1 3.2 3.2L18 9.2"></path>
+                        </svg>
+                      </button>
+                    </td>
+                  </tr>
+                }
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <footer class="pagination">
+          <span>Đang hiển thị {{ categories().length }} trên tổng số {{ totalCategories() === null ? '…' : totalCategories() }} danh mục sản phẩm</span>
+          <div class="pagination-controls">
+            <button type="button" (click)="previousPage()"
+              [disabled]="!hasPreviousPage || loading()" aria-label="Trang trước">‹</button>
+            <span class="current-page" aria-current="page">{{ pageNumber }}</span>
+            <button type="button" (click)="nextPage()"
+              [disabled]="!nextCursor() || loading()" aria-label="Trang tiếp theo">›</button>
+          </div>
+        </footer>
+      </section>
+    </main>
+  </app-admin-catalog-shell>
+
+  @if (dialogOpen()) {
+    <div class="modal-backdrop">
+      <div class="category-modal" role="dialog" aria-modal="true" aria-labelledby="category-dialog-heading"
+        (keydown.escape)="closeDialog()">
+        <header class="modal-header">
+          <h2 id="category-dialog-heading">{{ editing ? 'Chỉnh sửa danh mục' : 'Thêm danh mục mới' }}</h2>
+          <button type="button" class="modal-close" aria-label="Đóng" (click)="closeDialog()"
+            [disabled]="saving()">×</button>
+        </header>
+        <div class="modal-body">
+          <label class="form-field">
+            <span class="field-label">Tên danh mục <span class="required">*</span></span>
+            <input type="text" maxlength="120" [(ngModel)]="formName"
+              (ngModelChange)="onCategoryNameChange($event)"
+              placeholder="Nhập tên danh mục" autocomplete="off">
+          </label>
+          <div class="slug-field">
+            <label class="form-field" for="category-slug">
+              <span class="field-label">Đường dẫn (slug) <span class="required">*</span></span>
+              <input id="category-slug" type="text" maxlength="120" spellcheck="false"
+                [value]="formSlug" readonly aria-readonly="true"
+                placeholder="Slug sẽ tự tạo từ tên danh mục">
+            </label>
+            <p class="field-hint">Slug được tạo tự động từ tên danh mục. Ví dụ: Thức Ăn Hạt Cho Mèo → <code>thuc-an-hat-cho-meo</code>. Với danh mục cũ, slug mới chỉ được lưu khi bạn nhấn Lưu thay đổi.</p>
+          </div>
+          <label class="form-field">
+            Danh mục cha
+            <select [(ngModel)]="formParentId">
+              <option value="">Không có (Danh mục gốc)</option>
+              @for (item of parentOptions(); track item.id) {
+                @if (isEligibleParent(item)) {
+                  <option [value]="item.id">{{ item.name }}</option>
+                }
+              }
+            </select>
+          </label>
+          <label class="form-field">
+            Trạng thái
+            <select [(ngModel)]="formStatus">
+              <option value="ACTIVE">Đang hoạt động</option>
+              <option value="INACTIVE">Tạm ngưng</option>
+            </select>
+          </label>
+          
+        </div>
+        <footer class="modal-actions">
+          <button type="button" class="btn-outline" (click)="closeDialog()" [disabled]="saving()">Hủy bỏ</button>
+          <button type="button" class="btn-primary" (click)="saveCategory()" [disabled]="saving()">
+            {{ saving() ? 'Đang lưu...' : editing ? 'Lưu thay đổi' : 'Tạo danh mục' }}
+          </button>
+        </footer>
+      </div>
+    </div>
+  }
+</div>

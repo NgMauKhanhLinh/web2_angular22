@@ -1,0 +1,229 @@
+<app-admin-catalog-shell activeItem="services">
+  <main class="service-editor" aria-labelledby="service-editor-title">
+    <header class="service-editor__header">
+      <div>
+        <nav class="service-editor__breadcrumb" aria-label="Đường dẫn">
+          <a routerLink="/admin/services">Danh mục dịch vụ</a><span aria-hidden="true">›</span>
+          <strong aria-current="page">{{ title }}</strong>
+        </nav>
+        <h1 id="service-editor-title">{{ title }}</h1>
+       </div>
+      <div class="service-editor__actions">
+        <button type="button" class="service-editor__btn service-editor__btn--secondary" (click)="cancel()">
+          {{ readOnly ? 'Quay lại' : 'Hủy' }}
+        </button>
+        @if (editorMode === 'view' && authSessionRole === 'ADMIN' && serviceId && !missingService()) {
+          <a class="service-editor__btn service-editor__btn--primary" [routerLink]="['/admin/services', serviceId, 'edit']">Chỉnh sửa</a>
+        }
+        @if (mayEdit) {
+          <button type="button" class="service-editor__btn service-editor__btn--primary"
+            [disabled]="saving() || loading()" (click)="validateDraft()">{{ saving() ? 'Đang lưu…' : 'Lưu dịch vụ' }}</button>
+        }
+      </div>
+    </header>
+
+    @if (loading()) {
+      <div class="service-editor__error" role="status">Đang tải thông tin dịch vụ từ Backend...</div>
+    } @else if (missingService()) {
+      <div class="service-editor__error" role="alert">
+        Không tải được dịch vụ từ Backend. Vui lòng thử lại hoặc kiểm tra quyền truy cập.
+        <a routerLink="/admin/services">Về danh mục</a>
+      </div>
+    } @else {
+      <section class="service-editor__card" aria-labelledby="service-basic-title">
+        <h2 id="service-basic-title">Thông tin cơ bản</h2>
+        <div class="service-editor__fields service-editor__fields--three">
+          <label class="service-editor__field">
+            <span>Tên dịch vụ <b>*</b></span>
+            <input type="text" maxlength="120" [disabled]="!mayEdit"
+              placeholder="Tắm & Sấy khô" [(ngModel)]="serviceName"
+              (ngModelChange)="markDirty()"/>
+          </label>
+          <label class="service-editor__field">
+            <span>Loại dịch vụ <b>*</b></span>
+            <select [disabled]="!mayEdit" [ngModel]="category"
+              (ngModelChange)="changeCategory($event)">
+              <option value="GROOMING">GROOMING</option>
+              <option value="MEDICAL">MEDICAL</option>
+            </select>
+          </label>
+          <label class="service-editor__field">
+            <span>Hình thức đặt lịch <b>*</b></span>
+            <select [disabled]="!mayEdit" [ngModel]="bookingMode"
+              (ngModelChange)="changeBookingMode($event)">
+              <option value="BOOKABLE">BOOKABLE</option>
+              <option value="REQUEST_ONLY">REQUEST_ONLY</option>
+              <option value="CONTACT_ONLY">CONTACT_ONLY</option>
+            </select>
+          </label>
+        </div>
+        <label class="service-editor__field service-editor__description">
+          <span>Mô tả dịch vụ</span>
+          <textarea [disabled]="!mayEdit" rows="2" maxlength="2000" [(ngModel)]="description"
+            (ngModelChange)="markDirty()" placeholder="Quy trình chăm sóc và vệ sinh thú cưng theo nhu cầu..."></textarea>
+        </label>
+      </section>
+
+      <div class="service-editor__two-cards">
+        <section class="service-editor__card" aria-labelledby="service-schedule-title">
+          <h2 id="service-schedule-title">Thời lượng &amp; Nhân sự</h2>
+          <div class="service-editor__fields service-editor__fields--two">
+            <label class="service-editor__field">
+              <span>Thời lượng (phút) @if (bookingMode !== 'CONTACT_ONLY') { <b>*</b> }</span>
+              <input type="number" min="1" max="1440" step="1"
+                [disabled]="!mayEdit"
+                [(ngModel)]="durationMinutes" (ngModelChange)="markDirty()"
+                placeholder="60"/>
+            </label>
+            <label class="service-editor__field">
+              <span>Vai trò thực hiện <b>*</b></span>
+              <select [disabled]="!mayEdit" [(ngModel)]="executorRole" (ngModelChange)="markDirty()">
+                <option value="CARE_STAFF_GROOMER">Nhân viên chăm sóc</option>
+                <option value="NURSE" [disabled]="category !== 'MEDICAL'">Y tá</option>
+                <option value="VETERINARIAN">Bác sĩ thú y</option>
+              </select>
+            </label>
+          </div>
+        </section>
+        <section class="service-editor__card service-editor__status-card" aria-labelledby="service-status-title">
+          <h2 id="service-status-title">Trạng thái dịch vụ</h2>
+          <div class="service-editor__switch-row">
+            <button type="button" class="service-editor__switch"
+              [class.service-editor__switch--on]="active"
+              [attr.aria-pressed]="active"
+              [disabled]="!mayEdit"
+              (click)="toggleStatus()" aria-label="Thay đổi trạng thái dịch vụ"><span></span></button>
+            <span>{{ active ? 'Đang hoạt động' : 'Tạm ngưng' }}</span>
+          </div>
+        </section>
+      </div>
+
+      <section class="service-editor__card" aria-labelledby="service-price-title">
+        <h2 id="service-price-title">Giá dịch vụ</h2>
+        <label class="service-editor__field service-editor__price-settings">
+          <span>Giá theo cân nặng</span>
+          <select [disabled]="!mayEdit" [(ngModel)]="weightPricing" (ngModelChange)="markPricingDirty()">
+            <option [ngValue]="true">Có áp dụng</option>
+            <option [ngValue]="false">Không áp dụng</option>
+          </select>
+        </label>
+
+        <div class="service-editor__table-scroll">
+          <table class="service-editor__table service-editor__table--prices">
+            <thead>
+              <tr>
+                <th scope="col">Mức</th>
+                <th scope="col">Cân nặng</th>
+                <th scope="col">Hình thức thu phí</th>
+                <th scope="col">Giá cơ sở (VNĐ)</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (tier of priceTiers; track tier.key) {
+                @if (weightPricing || tier.key === 'XS') {
+                  <tr>
+                    <td><strong>{{ weightPricing ? tier.key : 'Chung' }}</strong></td>
+                    <td>{{ weightPricing ? tier.weight : 'Mọi cân nặng' }}</td>
+                    <td>
+                      <select [disabled]="!mayEdit" class="service-editor__price-select"
+                        [ngModel]="tier.mode" (ngModelChange)="setTierMode(tier, $event)"
+                        [attr.aria-label]="'Hình thức thu phí mức ' + tier.key">
+                        <option value="FIXED">Giá cố định</option>
+                        <option value="QUOTE">Liên hệ báo giá</option>
+                      </select>
+                    </td>
+                    <td>
+                      <span class="service-editor__price-input">
+                        <input type="number" min="1" step="1000" [disabled]="!mayEdit || tier.mode === 'QUOTE'"
+                          [(ngModel)]="tier.price" (ngModelChange)="markPricingDirty()"
+                          [attr.aria-label]="'Giá cơ sở mức ' + tier.key"
+                          [placeholder]="tier.mode === 'QUOTE' ? '—' : 'Nhập giá'"/>
+                        @if (tier.mode === 'FIXED') { <span>đ</span> }
+                      </span>
+                    </td>
+                  </tr>
+                }
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="service-editor__card" aria-labelledby="service-materials-title">
+        <h2 id="service-materials-title">Vật liệu mặc định</h2>
+        <datalist id="service-product-options">
+          @for (product of productOptions; track product.sku) {
+            <option [value]="product.name">{{ product.sku }}</option>
+          }
+        </datalist>
+        <div class="service-editor__table-scroll">
+          <table class="service-editor__table service-editor__table--materials">
+            <thead><tr>
+              <th scope="col">Mã vật liệu</th>
+              <th scope="col">Tên vật liệu (tìm sản phẩm)</th>
+              <th scope="col">Số lượng mặc định</th>
+              <th scope="col">Đơn vị</th>
+              <th scope="col">Thao tác</th>
+            </tr></thead>
+            <tbody>
+              @for (line of materials; track line.key) {
+                <tr>
+                  <td><input class="service-editor__readonly" [value]="line.sku" placeholder="SKU" readonly tabindex="-1" aria-label="Mã SKU đã chọn"/></td>
+                  <td>
+                    <input type="text" list="service-product-options" [disabled]="!mayEdit"
+                      [ngModel]="line.query" (ngModelChange)="matchProduct(line, $event)"
+                      placeholder="Tìm SKU / tên sản phẩm..." [attr.aria-label]="'Tìm sản phẩm vật liệu dòng ' + ($index + 1)" />
+                  </td>
+                  <td><input type="number" min="0.01" step="0.01" [disabled]="!mayEdit"
+                    [(ngModel)]="line.quantity" (ngModelChange)="markMaterialDirty()"
+                    placeholder="Nhập số lượng" [attr.aria-label]="'Số lượng vật liệu dòng ' + ($index + 1)"/></td>
+                  <td><input type="text" maxlength="30" [disabled]="!mayEdit"
+                    [(ngModel)]="line.unit" (ngModelChange)="markMaterialDirty()"
+                    placeholder="Đơn vị" [attr.aria-label]="'Đơn vị vật liệu dòng ' + ($index + 1)"/></td>
+                  <td class="service-editor__remove-cell">
+                    @if (mayEdit) {
+                      <button type="button" class="service-editor__remove" (click)="removeMaterial(line.key)"
+                        [attr.aria-label]="'Xóa vật liệu ' + ($index + 1)">
+                        <img src="/assets/service-catalog/delete_outline.svg" alt="" aria-hidden="true" />
+                      </button>
+                    }
+                  </td>
+                </tr>
+              }
+              @if (!materials.length) {
+                <tr><td colspan="5" class="service-editor__no-rows">Chưa có vật liệu. Bạn có thể thêm từ SKU hiện có.</td></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        @if (mayEdit) {
+          <button type="button" class="service-editor__btn service-editor__btn--secondary service-editor__add-material"
+            (click)="addMaterial()">+ Thêm vật liệu</button>
+        }
+      </section>
+
+      <section class="service-editor__card" aria-labelledby="service-branches-title">
+        <h2 id="service-branches-title">Cấu hình theo chi nhánh</h2>
+        <a class="service-editor__btn service-editor__btn--secondary"
+          routerLink="/admin/branches">Đi đến quản lý chi nhánh →</a>
+      </section>
+
+    }
+  </main>
+</app-admin-catalog-shell>
+
+@if (showCancelConfirmation()) {
+  <div class="service-editor__overlay" role="presentation">
+    <section class="service-editor__dialog" role="alertdialog" aria-modal="true"
+      aria-labelledby="service-cancel-title" aria-describedby="service-cancel-description">
+      <h2 id="service-cancel-title">Rời trang khi chưa lưu?</h2>
+      <p id="service-cancel-description">Các thay đổi chưa được lưu sẽ bị mất.</p>
+      <div>
+        <button type="button" class="service-editor__btn service-editor__btn--secondary"
+          (click)="showCancelConfirmation.set(false)">Tiếp tục chỉnh sửa</button>
+        <button type="button" class="service-editor__btn service-editor__btn--primary"
+          (click)="confirmCancel()">Rời trang</button>
+      </div>
+    </section>
+  </div>
+}

@@ -1,0 +1,6 @@
+<router-outlet (activate)="onRouteActivated()" />
+@if (!routeActivated()) {
+  <main class="app-route-loading" role="status" aria-live="polite">
+    Đang kiểm tra phiên đăng nhập...
+  </main>
+}

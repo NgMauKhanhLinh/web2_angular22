@@ -1,0 +1,62 @@
+<app-admin-catalog-shell activeItem="staff">
+  <main class="schedule-page">
+    <nav class="schedule-crumb" aria-label="Breadcrumb"><span>Vận hành</span><span aria-hidden="true">›</span><a routerLink="/admin/staff">Nhân sự</a><span aria-hidden="true">›</span><strong>Lịch làm việc</strong></nav>
+    <header class="schedule-heading"><h1>Quản lý nhân sự</h1><span class="preview">Dữ liệu mẫu · Chờ API Shift</span></header>
+    <nav class="schedule-tabs" aria-label="Nhân sự"><a routerLink="/admin/staff">Nhân viên</a><span aria-current="page">Lịch làm việc</span></nav>
+    <section class="schedule-panel">
+      <div class="schedule-toolbar">
+        <h2 class="schedule-toolbar__title">Lịch làm việc theo tuần</h2>
+        <div class="schedule-toolbar__controls">
+          <app-admin-staff-week-nav
+            [monday]="monday()" [label]="weekLabel()"
+            (previousWeek)="changeWeek(-1)" (nextWeek)="changeWeek(1)"
+            (currentWeek)="goToday()" (dateSelected)="selectDate($event)">
+          </app-admin-staff-week-nav>
+          <div class="schedule-filters">
+            <label class="schedule-filter">
+              <span class="sr-only">Vai trò</span>
+              <select aria-label="Lọc vai trò" [value]="role()" (change)="selectRole($any($event.target).value)">
+                <option value="ALL">Tất cả vai trò</option>
+                @for (option of roles; track option[0]) { <option [value]="option[0]">{{ option[1] }}</option> }
+              </select>
+              <img src="/assets/admin-product/icon-chevron-down.svg" width="18" height="18" alt="" aria-hidden="true">
+            </label>
+            <label class="schedule-filter">
+              <span class="sr-only">Chi nhánh</span>
+              <select aria-label="Lọc chi nhánh" [value]="branch()" (change)="selectBranch($any($event.target).value)">
+                <option value="ALL">Tất cả chi nhánh</option>
+                @for (item of branches; track item) { <option [value]="item">{{ item }}</option> }
+              </select>
+              <img src="/assets/admin-product/icon-chevron-down.svg" width="18" height="18" alt="" aria-hidden="true">
+            </label>
+          </div>
+          <button type="button" class="schedule-primary" disabled
+            title="Chức năng phân ca làm việc tạm thời chưa khả dụng">+ Phân ca làm việc</button>
+        </div>
+      </div>
+      <div class="schedule-scroller"><table>
+        <colgroup><col class="schedule-col-staff">@for (day of days(); track day.iso) { <col class="schedule-col-day"> }</colgroup>
+        <thead><tr><th>Nhân viên</th>@for (day of days(); track day.iso) { <th><span class="schedule-day"><span>{{ day.weekday }}</span><small>{{ day.dayMonth }}</small></span></th> }</tr></thead>
+        <tbody>
+        @for (staff of rows(); track staff.id) {
+          <tr><th scope="row"><a [routerLink]="['/admin/staff',staff.id]">{{ displayName(staff) }}</a><small>{{ staff.id }}</small></th>
+            @for (day of days(); track day.iso) {
+              <td>
+                @for (shift of shifts(staff.id,day.iso); track $index) {
+                  <div class="schedule-shift"><strong>{{ shift.shiftName }} · {{ shift.time }}</strong><span>Chi nhánh {{ shift.branch }}</span></div>
+                } @empty { <span class="schedule-dash">—</span> }
+              </td>
+            }
+          </tr>
+        } @empty { <tr><td colspan="8" class="schedule-empty">Không tìm thấy nhân viên phù hợp.</td></tr> }
+        </tbody>
+      </table></div>
+      <footer class="schedule-footer"><span>Đang hiển thị {{ rows().length }} trên tổng số {{ filtered().length }} nhân viên</span><nav aria-label="Phân trang nhân viên">
+        <button type="button" aria-label="Trang trước" [disabled]="page()===1" (click)="changePage(page()-1)">‹</button>
+        <span aria-current="page">{{ page() }}</span>
+        <button type="button" aria-label="Trang sau" [disabled]="page()>=pageCount()" (click)="changePage(page()+1)">›</button>
+      </nav></footer>
+    </section>
+    <p class="schedule-note">Dữ liệu minh họa · Lịch tuần thực tế sẽ lấy từ API Shift. @if (!isSampleWeek()) { Tuần được chọn chưa có ca trong dữ liệu mẫu. } Không tự tạo slot đặt lịch.</p>
+  </main>
+</app-admin-catalog-shell>

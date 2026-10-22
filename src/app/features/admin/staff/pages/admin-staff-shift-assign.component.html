@@ -1,0 +1,32 @@
+<app-admin-catalog-shell activeItem="staff">
+<main class="assign-page">
+  <nav class="assign-crumb" aria-label="Breadcrumb"><span>Vận hành</span> › <a routerLink="/admin/staff">Nhân sự</a> › <a routerLink="/admin/staff/schedule">Lịch làm việc</a> › <strong>Phân ca</strong></nav>
+  <header class="assign-header"><h1>Phân ca theo tuần</h1><div><button type="button" class="assign-cancel" (click)="requestClose()">Hủy</button><button type="button" class="assign-save" (click)="validatePreview()">Kiểm tra phân ca</button></div></header>
+  <p class="assign-note">Giao diện mẫu Phase 5 · Ca làm việc chưa được lưu vào Backend.</p>
+  <section class="assign-panel">
+    <div class="assign-row"><label>Nhân viên <select [value]="chosenId()" (change)="setStaff($any($event.target).value)">
+      <option value="">Chọn nhân viên</option>
+      @for (item of staff; track item.id) { <option [value]="item.id">{{ displayName(item) }}</option> }
+    </select></label>
+    <app-admin-staff-week-nav
+      [monday]="monday()" [label]="weekLabel()"
+      (previousWeek)="changeWeek(-1)" (nextWeek)="changeWeek(1)"
+      (currentWeek)="goToday()" (dateSelected)="selectWeekDate($event)">
+    </app-admin-staff-week-nav></div>
+    @if (!selectedStaff()) { <p class="assign-empty">Chọn nhân viên để bắt đầu phân ca.</p> }
+    @else {
+      <div class="assign-table"><table><thead><tr><th>Ngày</th><th>Ca đã phân công (mẫu)</th><th>Ca thêm trong bản nháp</th><th>Thêm ca</th></tr></thead>
+      <tbody>@for (day of days(); track day) {
+        <tr><td>{{ day }}</td><td>@for (shift of otherShifts(day); track $index) { <div class="assign-existing">{{ shift.shiftName }} · {{ shift.time }} · {{ shift.branch }}</div> } @empty { — }</td>
+        <td>@for (shift of shiftsFor(day); track shift) { <div class="assign-draft">{{ shift.template }} · {{ shift.start }}–{{ shift.end }} · {{ shift.branch }} <button type="button" (click)="remove(shift)" aria-label="Bỏ ca trong bản nháp">×</button></div> } @empty { — }</td>
+        <td><div class="assign-controls"><select #branch [attr.aria-label]="'Chi nhánh ngày '+day"><option value="">Chi nhánh</option>@for (item of branches(); track item) { <option [value]="item">{{ item }}</option> }</select>
+        <select #template [attr.aria-label]="'Mẫu ca ngày '+day"><option value="">Mẫu ca</option>@for (item of options(branch.value); track item.name) { <option [value]="item.name">{{ item.name }} · {{ item.start }}–{{ item.end }}</option> }</select>
+        <button type="button" (click)="add(day,branch.value,template.value)">+ Thêm</button></div></td></tr>
+      }</tbody></table></div>
+    }
+  </section>
+  @for (error of errors(); track error) { <p class="assign-error" role="alert">{{ error }}</p> }
+  @if (success()) { <p class="assign-success" role="status">{{ success() }}</p> }
+  @if (confirmLeave()) { <section class="assign-warning" role="alert"><strong>Hủy các thay đổi chưa lưu?</strong><button type="button" (click)="confirmLeave.set(false)">Tiếp tục chỉnh sửa</button><button type="button" (click)="discard()">Xóa bản nháp</button></section> }
+</main>
+</app-admin-catalog-shell>

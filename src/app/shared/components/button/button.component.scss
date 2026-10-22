@@ -1,0 +1,57 @@
+:host {
+  display: inline-block;
+}
+
+.shared-button {
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 18px;
+  border: 1px solid #0f172a;
+  border-radius: 10px;
+  background: #0f172a;
+  color: #ffffff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 120ms ease,
+    opacity 120ms ease,
+    background-color 120ms ease;
+}
+
+.shared-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.shared-button:focus-visible {
+  outline: 3px solid rgb(59 130 246 / 35%);
+  outline-offset: 2px;
+}
+
+.shared-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.shared-button--secondary {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.shared-button__spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 999px;
+  animation: shared-button-spin 700ms linear infinite;
+}
+
+@keyframes shared-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,163 @@
+<app-admin-catalog-shell activeItem="products">
+  <main class="product-list-page">
+    <header class="page-header">
+      <h1>Quản lý sản phẩm</h1>
+    </header>
+    
+
+    <nav class="lifecycle-tabs" aria-label="Nhóm sản phẩm">
+      <button type="button" [class.selected]="!archiveView" [attr.aria-current]="!archiveView ? 'page' : null" (click)="selectArchiveView(false)">Sản phẩm hiện tại</button>
+      <button type="button" [class.selected]="archiveView" [attr.aria-current]="archiveView ? 'page' : null" (click)="selectArchiveView(true)">Đã lưu trữ</button>
+    </nav>
+
+    <section class="product-panel" aria-label="Danh sách sản phẩm">
+      <div class="toolbar">
+        <label class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5"/><path d="m16 16 4.2 4.2"/></svg>
+          <input type="search" [(ngModel)]="searchTerm" (ngModelChange)="onSearchInput($event)" (keyup.enter)="applyFilters()" placeholder="Tìm kiếm tên sản phẩm hoặc SKU..." aria-label="Tìm sản phẩm theo tên hoặc SKU">
+        </label>
+        <div class="toolbar-actions">
+          <button class="outline-btn filter-trigger" type="button" [attr.aria-expanded]="filterOpen" aria-controls="product-filters" (click)="filterOpen = !filterOpen">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 5h16l-6.5 7.5V19l-3 1.5v-8L4 5z"/></svg>Bộ lọc
+          </button>
+          <a class="primary-btn" routerLink="/admin/products/new"><span aria-hidden="true">＋</span> Thêm sản phẩm</a>
+        </div>
+      </div>
+
+      @if (filterOpen) {
+        <div class="filter-panel" id="product-filters" role="group" aria-label="Bộ lọc sản phẩm">
+          <h2>Bộ lọc sản phẩm</h2>
+          <div class="filter-columns">
+            <fieldset><legend>Danh mục</legend>
+              @for (cat of categories(); track cat.id) {
+                <label class="check"><input type="checkbox" [checked]="categoryFilter === cat.id" (change)="toggleCategory(cat.id)">{{ cat.name }}</label>
+              }
+              @if (!categories().length) { <span class="filter-hint">Chưa tải được danh mục</span> }
+            </fieldset>
+            <fieldset><legend>Loại sử dụng</legend>
+              <label class="check"><input type="checkbox" [checked]="usageFilter === 'SALE'" (change)="toggleUsage('SALE')">Hàng bán</label>
+              <label class="check"><input type="checkbox" [checked]="usageFilter === 'SHARED'" (change)="toggleUsage('SHARED')">Dùng chung</label>
+              <label class="check"><input type="checkbox" [checked]="usageFilter === 'SERVICE_SUPPLY'" (change)="toggleUsage('SERVICE_SUPPLY')">Vật tư dịch vụ</label>
+            </fieldset>
+            <fieldset><legend>Khoảng giá</legend>
+              <label class="check"><input type="checkbox" [checked]="priceFilter === 'LOW'" (change)="togglePrice('LOW')">Dưới 100.000đ</label>
+              <label class="check"><input type="checkbox" [checked]="priceFilter === 'MID'" (change)="togglePrice('MID')">100.000–500.000đ</label>
+              <label class="check"><input type="checkbox" [checked]="priceFilter === 'HIGH'" (change)="togglePrice('HIGH')">Trên 500.000đ</label>
+            </fieldset>
+            <fieldset><legend>Trạng thái</legend>
+              @if (!archiveView) {
+                <label class="check"><input type="checkbox" [checked]="statusFilter === 'ACTIVE'" (change)="toggleStatus('ACTIVE')">Đang hoạt động</label>
+                <label class="check"><input type="checkbox" [checked]="statusFilter === 'INACTIVE'" (change)="toggleStatus('INACTIVE')">Tạm ngưng</label>
+              } @else { <span class="filter-hint">Đang xem sản phẩm lưu trữ</span> }
+            </fieldset>
+            <fieldset><legend>Ngày tạo</legend>
+              <label class="check"><input type="checkbox" [checked]="daysFilter === 7" (change)="toggleDays(7)">7 ngày qua</label>
+              <label class="check"><input type="checkbox" [checked]="daysFilter === 30" (change)="toggleDays(30)">30 ngày qua</label>
+              <label class="check"><input type="checkbox" [checked]="daysFilter === 90" (change)="toggleDays(90)">90 ngày qua</label>
+            </fieldset>
+          </div>
+          <div class="filter-footer">
+            <button class="outline-btn" type="button" (click)="clearFilters()">Xóa bộ lọc</button>
+            <button class="primary-btn" type="button" (click)="applyFilters(); filterOpen = false">Áp dụng</button>
+          </div>
+        </div>
+      }
+
+      @if (error()) {
+        
+        <button type="button" class="outline-btn" (click)="loadPage(pageNumber())">Thử lại</button>
+      }
+      <div class="table-scroll">
+        <table>
+          <thead><tr>
+            <th scope="col">STT</th><th scope="col">Hình ảnh</th><th scope="col">Tên sản phẩm</th><th scope="col">SKU / Biến thể</th><th scope="col">Danh mục</th><th scope="col">Giá</th><th scope="col">Tổng tồn kho</th><th scope="col">Ngày tạo</th><th scope="col">Trạng thái</th><th scope="col">Thao tác</th>
+          </tr></thead>
+          <tbody>
+            @if (loading()) {
+              <tr><td class="empty" colspan="10">Đang tải sản phẩm...</td></tr>
+            } @else if (products().length === 0) {
+              <tr><td class="empty" colspan="10">{{ archiveView ? 'Chưa có sản phẩm lưu trữ.' : 'Chưa có sản phẩm phù hợp.' }}</td></tr>
+            } @else {
+              @for (product of products(); track product.id) {
+                <tr [class.out-of-stock]="product.outOfStock">
+                  <td>{{ (pageNumber() - 1) * pageSize + $index + 1 }}</td>
+                  <td><div class="thumbnail">
+                    @if (product.images.length) { <img [src]="product.images[0].url" [alt]="product.name"> }
+                    @else { <span class="empty-photo" aria-label="Chưa có ảnh"></span> }
+                  </div></td>
+                  <td class="product-name"><strong>{{ product.name }}</strong></td>
+                  <td class="sku">
+                    @if (product.variants.length > 1) {
+                      <span>{{ product.variants.length }} biến thể · {{ product.variants.length }} SKU</span><small [title]="productSku(product)">{{ productSku(product) }}</small>
+                    } @else { <span [title]="productSku(product)">{{ productSku(product) }}</span> }
+                  </td>
+                  <td>{{ categoryName(product.categoryId) }}</td>
+                  <td class="price">{{ priceRange(product) }}</td>
+                  <td class="stock-cell">{{ product.totalStock }}</td>
+                  <td class="date-cell">{{ product.createdAt ? product.createdAt.slice(0, 10) : '—' }}</td>
+                  <td class="status-cell">
+                    <span class="status" [class.active]="product.status === 'ACTIVE'" [class.archived]="product.status === 'ARCHIVED'">{{ product.status === 'ACTIVE' ? 'Đang hoạt động' : product.status === 'ARCHIVED' ? 'Đã lưu trữ' : 'Tạm ngưng' }}</span>
+                  </td>
+                  <td class="actions">
+                    <a [routerLink]="['/admin/products', product.id, 'edit']" [queryParams]="product.status === 'ARCHIVED' ? { view: 'archived' } : null" title="Chỉnh sửa" [attr.aria-label]="'Chỉnh sửa ' + product.name">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m13 6 5 5M4 20l4.6-1 10.9-10.9a2.1 2.1 0 0 0-3-3L5.6 16z"/></svg>
+                    </a>
+                    @if (product.status === 'ARCHIVED') {
+                      <button type="button" class="archive-action restore-action" [disabled]="!!updatingId()" (click)="requestRestore(product)" [attr.title]="'Khôi phục ' + product.name" [attr.aria-label]="'Khôi phục ' + product.name">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>
+                      </button>
+                    } @else {
+                      <button type="button" class="archive-action" [disabled]="!!updatingId()" (click)="requestArchive(product)" title="Lưu trữ sản phẩm" [attr.aria-label]="'Lưu trữ ' + product.name">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="4" y="8" width="16" height="12" rx="1"/><path d="M3 4h18v4H3zM12 11v6m-3-3 3 3 3-3"/></svg>
+                      </button>
+                    }
+                  </td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+      <footer class="pagination">
+        <span>Đang hiển thị {{ products().length }} trên tổng số {{ totalProducts() === null ? '…' : totalProducts() }} sản phẩm</span>
+        <div class="pagination-buttons">
+          <button type="button" (click)="previous()" [disabled]="loading() || pageNumber() === 1" aria-label="Trang trước">‹</button>
+          @for (page of visiblePageNumbers(); track page) {
+  <button type="button" class="pagination-page" [class.pagination-page--active]="page === pageNumber()" [attr.aria-current]="page === pageNumber() ? 'page' : null" [attr.aria-label]="'Đến trang ' + page" [disabled]="loading()" (click)="goToPage(page)">{{ page }}</button>
+}
+          <button type="button" (click)="next()" [disabled]="loading() || !hasNextPage()" aria-label="Trang tiếp">›</button>
+        </div>
+      </footer>
+    </section>
+  </main>
+</app-admin-catalog-shell>
+
+@if (archiveTarget(); as target) {
+  <div class="product-leave-overlay" (keydown.escape)="closeArchiveDialog()">
+    <section class="product-leave-dialog" role="alertdialog" aria-modal="true"
+      aria-labelledby="archive-product-title" aria-describedby="archive-product-desc" tabindex="-1">
+      <h2 id="archive-product-title">Lưu trữ sản phẩm?</h2>
+      <p id="archive-product-desc">Bạn muốn lưu trữ <strong>{{ target.name }}</strong>? Sản phẩm sẽ không còn xuất hiện trong danh sách đang bán. Dữ liệu lịch sử vẫn được giữ lại.</p>
+      
+      <div class="product-leave-actions">
+        <button type="button" class="product-leave-stay" [disabled]="!!updatingId()" (click)="closeArchiveDialog()">Hủy bỏ</button>
+        <button type="button" class="product-leave-exit" [disabled]="!!updatingId()" (click)="confirmArchive()">{{ updatingId() ? 'Đang lưu trữ...' : 'Xác nhận lưu trữ' }}</button>
+      </div>
+    </section>
+  </div>
+}
+
+@if (restoreTarget(); as target) {
+  <div class="product-leave-overlay" (keydown.escape)="closeRestoreDialog()">
+    <section class="product-leave-dialog" role="alertdialog" aria-modal="true"
+      aria-labelledby="restore-product-title" aria-describedby="restore-product-desc" tabindex="-1">
+      <h2 id="restore-product-title">Khôi phục sản phẩm?</h2>
+      <p id="restore-product-desc">Khôi phục <strong>{{ target.name }}</strong> về danh sách Sản phẩm hiện tại ở trạng thái <strong>Tạm ngưng</strong>. Bạn có thể kích hoạt bán lại sau khi kiểm tra thông tin và tồn kho.</p>
+      
+      <div class="product-leave-actions">
+        <button type="button" class="product-leave-stay" [disabled]="!!updatingId()" (click)="closeRestoreDialog()">Hủy bỏ</button>
+        <button type="button" class="product-leave-exit" [disabled]="!!updatingId()" (click)="confirmRestore()">{{ updatingId() ? 'Đang khôi phục...' : 'Khôi phục sản phẩm' }}</button>
+      </div>
+    </section>
+  </div>
+}

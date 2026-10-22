@@ -1,0 +1,147 @@
+<div class="catalog-shell">
+  <header class="catalog-header">
+    <a class="catalog-header__brand" routerLink="/admin/dashboard" aria-label="Dr. Pet's House — Admin Dashboard">
+      <img src="/assets/admin-product/logo-user.webp" alt="Dr. Pet's House" width="166" height="72">
+    </a>
+
+    <div class="catalog-header__actions">
+      <a routerLink="/" class="catalog-header__view-site">Xem trang web</a>
+      <img class="catalog-header__notification" src="/assets/admin-product/icon-notification.svg" alt="Thông báo" width="41" height="41">
+      <a routerLink="/admin/profile" class="catalog-header__profile" aria-label="Xem hồ sơ quản trị viên">
+        <img class="catalog-header__avatar" src="/assets/admin-product/avatar-figma.png" alt="" width="36" height="36">
+        <span class="catalog-header__identity">Quản trị viên<small>Tên tài khoản</small></span>
+        <img class="catalog-header__chevron" src="/assets/admin-product/icon-chevron-down.svg" alt="" aria-hidden="true" width="16" height="16">
+      </a>
+    </div>
+  </header>
+
+  <div class="catalog-layout">
+    <aside class="catalog-sidebar">
+      <nav aria-label="Điều hướng quản trị">
+        <a class="catalog-sidebar__link" routerLink="/admin/dashboard">
+          <img src="/assets/admin-product/icon-dashboard.svg" alt="" width="20" height="20">
+          Dashboard
+        </a>
+
+        <button type="button" class="catalog-sidebar__group"
+          [class.catalog-sidebar__group--active]="activeItem === 'categories' || activeItem === 'products'"
+          [attr.aria-expanded]="salesExpanded" aria-controls="admin-sales-submenu"
+          (click)="toggleSales()">
+          <img src="/assets/admin-product/icon-sales.svg" alt="" width="20" height="20">
+          <span>Bán hàng</span>
+          <img class="catalog-sidebar__group-chevron"
+            [src]="salesExpanded ? '/assets/admin-product/expand_less.svg' : '/assets/admin-product/expand_more.svg'"
+            alt="" aria-hidden="true" width="16" height="16">
+        </button>
+
+        <div id="admin-sales-submenu" class="catalog-sidebar__children"
+          [hidden]="!salesExpanded" aria-label="Các mục thuộc Bán hàng">
+          <a class="catalog-sidebar__sub" routerLink="/admin/categories"
+            [class.catalog-sidebar__sub--active]="activeItem === 'categories'"
+            [attr.aria-current]="activeItem === 'categories' ? 'page' : null">
+            Danh mục sản phẩm
+          </a>
+          <a class="catalog-sidebar__sub" routerLink="/admin/products"
+            [class.catalog-sidebar__sub--active]="activeItem === 'products'"
+            [attr.aria-current]="activeItem === 'products' ? 'page' : null">
+            Sản phẩm
+          </a>
+          <a class="catalog-sidebar__sub" routerLink="/admin/orders">Đơn hàng</a>
+          <span class="catalog-sidebar__sub catalog-sidebar__sub--disabled" aria-disabled="true" title="Tính năng chưa được triển khai">Voucher / Khuyến mãi</span>
+        </div>
+
+        <button type="button" class="catalog-sidebar__group"
+          [class.catalog-sidebar__group--active]="activeItem === 'services'"
+          [attr.aria-expanded]="servicesExpanded" aria-controls="admin-services-submenu"
+          (click)="toggleServices()">
+          <img src="/assets/admin-product/icon-services.svg" alt="" width="20" height="20">
+          <span>Dịch vụ</span>
+          <img class="catalog-sidebar__group-chevron"
+            [src]="servicesExpanded ? '/assets/admin-product/expand_less.svg' : '/assets/admin-product/expand_more.svg'"
+            alt="" aria-hidden="true" width="16" height="16">
+        </button>
+        <div id="admin-services-submenu" class="catalog-sidebar__children catalog-sidebar__children--services"
+          [hidden]="!servicesExpanded" aria-label="Các mục thuộc Dịch vụ">
+          <a class="catalog-sidebar__sub" routerLink="/admin/services"
+            [class.catalog-sidebar__sub--active]="activeItem === 'services'"
+            [attr.aria-current]="activeItem === 'services' ? 'page' : null">
+            Danh mục dịch vụ
+          </a>
+          <a class="catalog-sidebar__sub" routerLink="/admin/appointments">Lịch hẹn</a>
+          <span class="catalog-sidebar__sub catalog-sidebar__sub--disabled" aria-disabled="true" title="Tính năng chưa được triển khai">Hồ sơ dịch vụ</span>
+        </div>
+
+        <button type="button" class="catalog-sidebar__group"
+          [class.catalog-sidebar__group--active]="activeItem === 'branches' || activeItem === 'staff'"
+          [attr.aria-expanded]="operationsExpanded" aria-controls="admin-operations-submenu"
+          (click)="toggleOperations()">
+          <img src="/assets/admin-product/icon-operations.svg" alt="" width="20" height="20">
+          <span>Vận hành</span>
+          <img class="catalog-sidebar__group-chevron"
+            [src]="operationsExpanded ? '/assets/admin-product/expand_less.svg' : '/assets/admin-product/expand_more.svg'"
+            alt="" aria-hidden="true" width="16" height="16">
+        </button>
+        <div id="admin-operations-submenu" class="catalog-sidebar__children catalog-sidebar__children--services"
+          [hidden]="!operationsExpanded" aria-label="Các mục thuộc Vận hành">
+          <span class="catalog-sidebar__sub catalog-sidebar__sub--disabled" aria-disabled="true" title="Tính năng chưa được triển khai">Kho</span>
+          <a class="catalog-sidebar__sub" routerLink="/admin/branches"
+            [class.catalog-sidebar__sub--active]="activeItem === 'branches'"
+            [attr.aria-current]="activeItem === 'branches' ? 'page' : null">
+            Chi nhánh
+          </a>
+          <a class="catalog-sidebar__sub" routerLink="/admin/staff"
+            [class.catalog-sidebar__sub--active]="activeItem === 'staff'"
+            [attr.aria-current]="activeItem === 'staff' ? 'page' : null">Nhân sự</a>
+        </div>
+        <a class="catalog-sidebar__link" routerLink="/admin/users">
+          <img src="/assets/admin-product/icon-users.svg" alt="" width="20" height="20">
+          Quản lý người dùng
+        </a>
+        <button type="button" class="catalog-sidebar__group"
+          [attr.aria-expanded]="contentExpanded" aria-controls="admin-content-submenu"
+          (click)="toggleContent()">
+          <img src="/assets/admin-product/icon-content.svg" alt="" width="20" height="20">
+          <span>Nội dung &amp; Cộng đồng</span>
+          <img class="catalog-sidebar__group-chevron"
+            [src]="contentExpanded ? '/assets/admin-product/expand_less.svg' : '/assets/admin-product/expand_more.svg'"
+            alt="" aria-hidden="true" width="16" height="16">
+        </button>
+        <div id="admin-content-submenu" class="catalog-sidebar__children catalog-sidebar__children--services"
+          [hidden]="!contentExpanded" aria-label="Các mục thuộc Nội dung và Cộng đồng">
+          <span class="catalog-sidebar__sub catalog-sidebar__sub--disabled" aria-disabled="true" title="Tính năng chưa được triển khai">Bài viết / Kiến thức</span>
+          <span class="catalog-sidebar__sub catalog-sidebar__sub--disabled" aria-disabled="true" title="Tính năng chưa được triển khai">Cẩm nang sơ cứu</span>
+          <span class="catalog-sidebar__sub catalog-sidebar__sub--disabled" aria-disabled="true" title="Tính năng chưa được triển khai">Bài đăng cộng đồng</span>
+          <span class="catalog-sidebar__sub catalog-sidebar__sub--disabled" aria-disabled="true" title="Tính năng chưa được triển khai">Cứu trợ &amp; Nhận nuôi</span>
+        </div>
+
+        <button type="button" class="catalog-sidebar__group"
+          [attr.aria-expanded]="feedbackExpanded" aria-controls="admin-feedback-submenu"
+          (click)="toggleFeedback()">
+          <img src="/assets/admin-product/icon-reviews.svg" alt="" width="20" height="20">
+          <span>Đánh giá &amp; Phản hồi</span>
+          <img class="catalog-sidebar__group-chevron"
+            [src]="feedbackExpanded ? '/assets/admin-product/expand_less.svg' : '/assets/admin-product/expand_more.svg'"
+            alt="" aria-hidden="true" width="16" height="16">
+        </button>
+        <div id="admin-feedback-submenu" class="catalog-sidebar__children catalog-sidebar__children--services"
+          [hidden]="!feedbackExpanded" aria-label="Các mục thuộc Đánh giá và Phản hồi">
+          <span class="catalog-sidebar__sub catalog-sidebar__sub--disabled" aria-disabled="true" title="Tính năng chưa được triển khai">Đánh giá</span>
+          <span class="catalog-sidebar__sub catalog-sidebar__sub--disabled" aria-disabled="true" title="Tính năng chưa được triển khai">Phản hồi khách hàng</span>
+          <span class="catalog-sidebar__sub catalog-sidebar__sub--disabled" aria-disabled="true" title="Tính năng chưa được triển khai">Báo cáo vi phạm</span>
+        </div>
+      </nav>
+    </aside>
+    <div class="catalog-layout__content">
+      <ng-content />
+    </div>
+  </div>
+</div>
+
+@if (toast.current(); as notice) {
+  <div class="admin-feedback-toast" [class.admin-feedback-toast--error]="notice.kind === 'error'"
+       [class.admin-feedback-toast--success]="notice.kind === 'success'"
+       [attr.role]="notice.kind === 'error' ? 'alert' : 'status'" aria-live="polite">
+    <span class="admin-feedback-toast__icon" aria-hidden="true">{{ notice.kind === 'success' ? '✓' : notice.kind === 'error' ? '!' : 'i' }}</span><span class="admin-feedback-toast__message">{{ notice.message }}</span>
+    <button type="button" aria-label="Đóng thông báo" (click)="toast.dismiss()">×</button>
+  </div>
+}

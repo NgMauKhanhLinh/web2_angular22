@@ -1,0 +1,76 @@
+/* Product Edit shares its scoped layout with Product Create in src/styles.scss. */
+
+/* A separate full-width add-variant form, never compressed into the table. */
+:host .edit-page .new-variant-form {
+  display: block;
+  width: 100%;
+  margin: 0 0 22px;
+  padding: 20px;
+  border: 1px solid #d5e5f4;
+  border-radius: 10px;
+  background: #f5faff;
+  box-sizing: border-box;
+}
+:host .edit-page .new-variant-form h3 {
+  margin: 0 0 5px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #17263c;
+}
+:host .edit-page .new-variant-form > p {
+  margin: 0 0 18px;
+  color: #667a90;
+  font-size: 12px;
+}
+:host .edit-page .new-variant-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+:host .edit-page .new-variant-grid > label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #263951;
+}
+:host .edit-page .new-variant-grid input {
+  width: 100%;
+  min-width: 0;
+  height: 44px;
+  padding: 9px 12px;
+  border: 1px solid #cddbea;
+  border-radius: 8px;
+  background: #fff;
+  box-sizing: border-box;
+}
+:host .edit-page .new-variant-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 18px;
+}
+:host .edit-page .new-variant-actions .variant-active-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+:host .edit-page .variant-expand-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  font-size: 21px;
+  line-height: 1;
+}
+@media (max-width: 760px) {
+  :host .edit-page .new-variant-grid { grid-template-columns: 1fr; }
+  :host .edit-page .new-variant-actions { justify-content: space-between; }
+}
+
+/* Variant table alignment and errors are shared with Create in src/styles.scss. */

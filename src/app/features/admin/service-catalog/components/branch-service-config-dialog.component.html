@@ -1,0 +1,128 @@
+<div class="branch-config__backdrop">
+  <section #dialog tabindex="-1" class="branch-config__dialog"
+    [class.branch-config__dialog--manager]="isManager"
+    role="dialog" aria-modal="true"
+    aria-labelledby="branch-config-title" aria-describedby="branch-config-description">
+    <header class="branch-config__header">
+      <div>
+        <h2 id="branch-config-title">Cấu hình dịch vụ tại chi nhánh</h2>
+        <p id="branch-config-description">
+          {{ service.serviceCode }} · {{ service.name }}
+          @if (selectedBranch) { · {{ selectedBranch.name }} }
+        </p>
+      </div>
+      <button type="button" class="branch-config__close" aria-label="Đóng cấu hình"
+        (click)="requestClose()">×</button>
+    </header>
+
+    <div class="branch-config__fields branch-config__fields--capacity">
+      <div class="branch-config__field">
+        <span>Kích hoạt tại chi nhánh</span>
+        <div class="branch-config__switch-row">
+          <button type="button" class="branch-config__switch"
+            [class.branch-config__switch--active]="enabled()"
+            [attr.aria-pressed]="enabled()"
+            [disabled]="!canEnable"
+            [attr.aria-label]="'Kích hoạt ' + service.name + ' tại ' + (selectedBranch?.name || 'chi nhánh')"
+            (click)="toggleEnabled()"><span></span></button>
+          <span class="branch-config__switch-label">{{ enabled() ? 'Bật' : 'Tắt' }}</span>
+        </div>
+      </div>
+
+      <div class="branch-config__field">
+        <span>Sức chứa đồng thời <b>*</b></span>
+        <div class="branch-config__stepper" role="group" aria-label="Sức chứa đồng thời">
+          <button type="button" [disabled]="capacity() <= 0" (click)="decrease()"
+            aria-label="Giảm sức chứa">−</button>
+          <output aria-live="polite">{{ capacity() }}</output>
+          <button type="button" [disabled]="capacity() >= 100" (click)="increase()"
+            aria-label="Tăng sức chứa">+</button>
+        </div>
+      </div>
+      <div class="branch-config__field">
+        <span>Khả dụng</span>
+        <div class="branch-config__readonly-availability">
+          Backend tự tính
+        </div>
+        <small class="branch-config__readonly-note">Không thể chỉnh thủ công</small>
+      </div>
+    </div>
+
+    @if (!isServiceActive) {
+      <p class="branch-config__hint" role="status">
+        Dịch vụ đang tạm ngưng toàn hệ thống. Không thể bật tại chi nhánh.
+      </p>
+    } @else if (capacity() === 0) {
+      <p class="branch-config__hint" role="status">
+        Sức chứa bằng 0 nên dịch vụ tại chi nhánh bắt buộc là Tắt.
+      </p>
+    }
+
+    <section class="branch-config__blocked" aria-labelledby="branch-blocked-title">
+      <h3 id="branch-blocked-title">Tạm khóa dịch vụ theo thời gian</h3>
+      <p>Nhập khoảng ngày/giờ không nhận lịch cho dịch vụ tại chi nhánh này.</p>
+
+      <div class="branch-config__blocked-fields">
+        <label class="branch-config__blocked-field">
+          <span>Bắt đầu</span>
+          <input type="datetime-local" [value]="blockStart()"
+            (input)="updateStart($any($event.target).value)" />
+        </label>
+        <label class="branch-config__blocked-field">
+          <span>Kết thúc</span>
+          <input type="datetime-local" [value]="blockEnd()"
+            (input)="updateEnd($any($event.target).value)" />
+        </label>
+        <button class="branch-config__button branch-config__button--outline"
+          type="button" (click)="addBlockedWindow()">+ Thêm khoảng</button>
+      </div>
+
+      @if (blockedWindows().length) {
+        <ul class="branch-config__blocked-list" aria-label="Danh sách khoảng tạm khóa đang nhập">
+          @for (window of blockedWindows(); track window.id) {
+            <li>
+              <span>{{ window.start.replace('T', ' ') }} – {{ window.end.replace('T', ' ') }}</span>
+              <button type="button" (click)="removeBlockedWindow(window.id)"
+                [attr.aria-label]="'Bỏ khoảng tạm khóa ' + window.start + ' đến ' + window.end">Xóa</button>
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="branch-config__blocked-empty">Chưa có khoảng tạm khóa trong bản nháp.</p>
+      }
+    </section>
+
+    @if (errors().length) {
+      <div class="branch-config__errors" role="alert">
+        @for (error of errors(); track error) { <p>{{ error }}</p> }
+      </div>
+    }
+    @if (feedback()) {
+      <div class="branch-config__feedback" role="status">{{ feedback() }}</div>
+    }
+
+    @if (confirmDiscard()) {
+      <div class="branch-config__discard" role="alert">
+        <strong>Hủy các thay đổi chưa lưu?</strong>
+        <div>
+          <button type="button" class="branch-config__button branch-config__button--outline"
+            (click)="cancelDiscard()">Tiếp tục chỉnh sửa</button>
+          <button type="button" class="branch-config__button branch-config__button--primary"
+            (click)="discardChanges()">Hủy thay đổi</button>
+        </div>
+      </div>
+    } @else {
+      <footer class="branch-config__footer">
+        <button type="button" class="branch-config__button branch-config__button--outline"
+          (click)="requestClose()">Hủy</button>
+        <button type="button" class="branch-config__button branch-config__button--primary"
+          (click)="validatePreview()">Kiểm tra cấu hình</button>
+      </footer>
+    }
+
+    <p class="branch-config__demo-note">
+      Demo FE Phase 3 · Capacity và các khoảng tạm khóa chưa được ghi lên Backend.
+      Availability do Backend tính theo quy tắc vận hành.
+    </p>
+  </section>
+</div>
