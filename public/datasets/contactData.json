@@ -6,7 +6,7 @@
       "address": "669 Đỗ Mười, khu phố 13, Linh Xuân, Hồ Chí Minh",
       "hours": "Cả ngày (24/7) kể cả cuối tuần, lễ, Tết.",
       "phone": "0987.654.321",
-      "pin": "/assets/images/contact/figma/branch-pin-red.svg",
+      "pin": "/public/assets/customer/images/contact/figma/branch-pin-red.svg",
       "mapPosition": {
         "left": 287,
         "top": 228,
@@ -19,7 +19,7 @@
       "address": "530 Huỳnh Tấn Phát, Tân Thuận, Hồ Chí Minh",
       "hours": "Cả ngày (24/7) kể cả cuối tuần, lễ, Tết.",
       "phone": "0123.456.789",
-      "pin": "/assets/images/contact/figma/branch-pin-orange.svg",
+      "pin": "/public/assets/customer/images/contact/figma/branch-pin-orange.svg",
       "mapPosition": {
         "left": 100,
         "top": 136,
@@ -32,7 +32,7 @@
       "address": "162T Trường Chinh, Bảy Hiền, Hồ Chí Minh",
       "hours": "8:00 - 22:00 (kể cả cuối tuần, lễ, Tết)",
       "phone": "0923.446.779",
-      "pin": "/assets/images/contact/figma/branch-pin-yellow.svg",
+      "pin": "/public/assets/customer/images/contact/figma/branch-pin-yellow.svg",
       "mapPosition": {
         "left": 558,
         "top": 303,
@@ -45,7 +45,7 @@
       "address": "27 Nguyễn Thị Minh Khai, Bến Nghé, Hồ Chí Minh",
       "hours": "8:00 - 22:00 (kể cả cuối tuần, lễ, Tết)",
       "phone": "0901.234.567",
-      "pin": "/assets/images/contact/figma/branch-pin-red.svg",
+      "pin": "/public/assets/customer/images/contact/figma/branch-pin-red.svg",
       "mapPosition": {
         "left": 424,
         "top": 164,
@@ -58,7 +58,7 @@
       "address": "88 Lê Văn Sỹ, phường 11, Phú Nhuận, Hồ Chí Minh",
       "hours": "8:00 - 22:00 (kể cả cuối tuần, lễ, Tết)",
       "phone": "0902.345.678",
-      "pin": "/assets/images/contact/figma/branch-pin-orange.svg",
+      "pin": "/public/assets/customer/images/contact/figma/branch-pin-orange.svg",
       "mapPosition": {
         "left": 210,
         "top": 306,
@@ -71,7 +71,7 @@
       "address": "145 Võ Văn Ngân, Linh Chiểu, Thủ Đức, Hồ Chí Minh",
       "hours": "Cả ngày (24/7) kể cả cuối tuần, lễ, Tết.",
       "phone": "0903.456.789",
-      "pin": "/assets/images/contact/figma/branch-pin-yellow.svg",
+      "pin": "/public/assets/customer/images/contact/figma/branch-pin-yellow.svg",
       "mapPosition": {
         "left": 360,
         "top": 350,
@@ -84,7 +84,7 @@
       "address": "12 Nguyễn Ảnh Thủ, Trung Mỹ Tây, Hồ Chí Minh",
       "hours": "8:00 - 22:00 (kể cả cuối tuần, lễ, Tết)",
       "phone": "0904.567.890",
-      "pin": "/assets/images/contact/figma/branch-pin-red.svg",
+      "pin": "/public/assets/customer/images/contact/figma/branch-pin-red.svg",
       "mapPosition": {
         "left": 50,
         "top": 246,
@@ -97,7 +97,7 @@
       "address": "245 Nguyễn Duy Trinh, Bình Trưng Tây, Hồ Chí Minh",
       "hours": "8:00 - 22:00 (kể cả cuối tuần, lễ, Tết)",
       "phone": "0905.678.901",
-      "pin": "/assets/images/contact/figma/branch-pin-orange.svg",
+      "pin": "/public/assets/customer/images/contact/figma/branch-pin-orange.svg",
       "mapPosition": {
         "left": 476,
         "top": 414,
@@ -110,7 +110,7 @@
       "address": "6 Đại lộ Bình Dương, Phú Hòa, Bình Dương",
       "hours": "8:00 - 22:00 (kể cả cuối tuần, lễ, Tết)",
       "phone": "0906.789.012",
-      "pin": "/assets/images/contact/figma/branch-pin-yellow.svg",
+      "pin": "/public/assets/customer/images/contact/figma/branch-pin-yellow.svg",
       "mapPosition": {
         "left": 603,
         "top": 190,
@@ -123,7 +123,7 @@
       "address": "102 Hạ Long, phường 2, Vũng Tàu",
       "hours": "Cả ngày (24/7) kể cả cuối tuần, lễ, Tết.",
       "phone": "0907.890.123",
-      "pin": "/assets/images/contact/figma/branch-pin-red.svg",
+      "pin": "/public/assets/customer/images/contact/figma/branch-pin-red.svg",
       "mapPosition": {
         "left": 512,
         "top": 78,
@@ -136,45 +136,45 @@
       "id": "phone",
       "label": "0868.686.868",
       "href": "tel:0868686868",
-      "icon": "/assets/images/contact/figma/phone-contact.svg"
+      "icon": "/public/assets/customer/images/contact/figma/phone-contact.svg"
     },
     {
       "id": "email",
       "label": "drpetshouse.cskh@gmail.com",
       "href": "mailto:drpetshouse.cskh@gmail.com",
-      "icon": "/assets/images/contact/figma/email-contact.svg"
+      "icon": "/public/assets/customer/images/contact/figma/email-contact.svg"
     },
     {
       "id": "facebook",
       "label": "Fanpage Dr. Pet’s Shop",
       "href": "https://www.facebook.com/",
-      "icon": "/assets/images/contact/figma/facebook-contact.svg"
+      "icon": "/public/assets/customer/images/contact/figma/facebook-contact.svg"
     },
     {
       "id": "zalo",
       "label": "Zalo Dr. Pet’s Shop",
       "href": "https://zalo.me/",
-      "icon": "/assets/images/contact/figma/zalo-contact.svg"
+      "icon": "/public/assets/customer/images/contact/figma/zalo-contact.svg"
     },
     {
       "id": "instagram",
       "label": "Instagram Dr. Pet’s Shop",
       "href": "https://www.instagram.com/",
-      "icon": "/assets/images/contact/figma/instagram-contact.svg"
+      "icon": "/public/assets/customer/images/contact/figma/instagram-contact.svg"
     },
     {
       "id": "tiktok",
       "label": "TikTok Dr. Pet’s Shop",
       "href": "https://www.tiktok.com/",
-      "icon": "/assets/images/contact/figma/tiktok-contact.svg"
+      "icon": "/public/assets/customer/images/contact/figma/tiktok-contact.svg"
     }
   ],
   "contactAssets": {
-    "letterSend": "/assets/images/contact/figma/letter-send.png",
-    "map": "/assets/images/contact/figma/branch-map.png",
-    "search": "/assets/images/contact/figma/search-icon.svg",
-    "chevron": "/assets/images/contact/figma/chevron-down.svg",
-    "clock": "/assets/images/contact/figma/clock-icon.svg",
-    "branchPhone": "/assets/images/contact/figma/branch-phone.svg"
+    "letterSend": "/public/assets/customer/images/contact/figma/letter-send.png",
+    "map": "/public/assets/customer/images/contact/figma/branch-map.png",
+    "search": "/public/assets/customer/images/contact/figma/search-icon.svg",
+    "chevron": "/public/assets/customer/images/contact/figma/chevron-down.svg",
+    "clock": "/public/assets/customer/images/contact/figma/clock-icon.svg",
+    "branchPhone": "/public/assets/customer/images/contact/figma/branch-phone.svg"
   }
 }

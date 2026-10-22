@@ -236,8 +236,8 @@
         "title": "Tắm & Sấy khô",
         "description": "Sử dụng các dòng sữa tắm cao cấp, phù hợp với từng loại da và màu lông của bé.",
         "price": "Từ 50.000đ",
-        "image": "/assets/images/grooming/service-bath-55474c.png",
-        "mask": "/assets/images/grooming/service-card-mask.png",
+        "image": "/public/assets/customer/images/grooming/service-bath-55474c.png",
+        "mask": "/public/assets/customer/images/grooming/service-card-mask.png",
         "groupId": "spa-grooming",
         "priceValue": 50
       },
@@ -246,8 +246,8 @@
         "title": "Massage chuyên sâu",
         "description": "Kỹ thuật massage nhẹ nhàng giúp pet giải tỏa áp lực, tăng cường sự gắn kết",
         "price": "Từ 50.000đ",
-        "image": "/assets/images/grooming/service-massage.png",
-        "mask": "/assets/images/grooming/service-card-mask.png",
+        "image": "/public/assets/customer/images/grooming/service-massage.png",
+        "mask": "/public/assets/customer/images/grooming/service-card-mask.png",
         "groupId": "spa-grooming",
         "priceValue": 150
       },
@@ -256,8 +256,8 @@
         "title": "Vệ sinh răng miệng",
         "description": "Đánh răng loại bỏ mảng bám và xịt thơm miệng khử mùi hôi.",
         "price": "Từ 30.000đ",
-        "image": "/assets/images/grooming/service-teeth.png",
-        "mask": "/assets/images/grooming/service-card-mask.png",
+        "image": "/public/assets/customer/images/grooming/service-teeth.png",
+        "mask": "/public/assets/customer/images/grooming/service-card-mask.png",
         "groupId": "spa-grooming",
         "priceValue": 100
       }
@@ -268,8 +268,8 @@
         "title": "Massage chuyên sâu",
         "description": "Kỹ thuật massage nhẹ nhàng giúp pet giải tỏa áp lực, tăng cường sự gắn kết",
         "price": "Từ 50.000đ",
-        "image": "/assets/images/grooming/service-massage.png",
-        "mask": "/assets/images/grooming/service-card-mask.png",
+        "image": "/public/assets/customer/images/grooming/service-massage.png",
+        "mask": "/public/assets/customer/images/grooming/service-card-mask.png",
         "groupId": "spa-grooming",
         "priceValue": 50
       },
@@ -278,8 +278,8 @@
         "title": "Vệ sinh răng miệng",
         "description": "Đánh răng loại bỏ mảng bám và xịt thơm miệng khử mùi hôi.",
         "price": "Từ 30.000đ",
-        "image": "/assets/images/grooming/service-teeth.png",
-        "mask": "/assets/images/grooming/service-card-mask.png",
+        "image": "/public/assets/customer/images/grooming/service-teeth.png",
+        "mask": "/public/assets/customer/images/grooming/service-card-mask.png",
         "groupId": "spa-grooming",
         "priceValue": 30
       }
@@ -412,7 +412,7 @@
         "category": "accident",
         "categoryLabel": "Tai nạn",
         "variant": "image",
-        "image": "/assets/images/blog/post-placeholder.png",
+        "image": "/public/assets/customer/images/blog/post-placeholder.png",
         "title": "Sơ cứu vết bỏng chó mèo",
         "description": "Cách làm dịu vết bỏng bằng nước sạch và băng gạc tạm thời trước khi gặp bác sĩ."
       },
@@ -438,7 +438,7 @@
         "categoryLabel": "Khó thở",
         "variant": "urgent",
         "urgent": true,
-        "image": "/assets/images/blog/first-aid-choking.png",
+        "image": "/public/assets/customer/images/blog/first-aid-choking.png",
         "title": "Xử lý khi thú cưng bị sốc nhiệt",
         "description": "Hạ nhiệt đúng cách, giữ đường thở thông thoáng và đưa thú cưng tới cơ sở thú y."
       }
@@ -452,7 +452,7 @@
         "title": "Lịch chăm sóc sức khỏe định kỳ cho thú cưng",
         "excerpt": "Thông tin hữu ích từ chuyên gia giúp bạn chăm sóc thú cưng khỏe mạnh mỗi ngày.",
         "publishedAt": "3 Tháng 6, 2024",
-        "image": "/assets/images/blog/post-placeholder.png"
+        "image": "/public/assets/customer/images/blog/post-placeholder.png"
       },
       {
         "id": "recent-2",
@@ -462,7 +462,7 @@
         "title": "Chọn khẩu phần phù hợp theo độ tuổi của mèo",
         "excerpt": "Thông tin hữu ích từ chuyên gia giúp bạn chăm sóc thú cưng khỏe mạnh mỗi ngày.",
         "publishedAt": "3 Tháng 6, 2024",
-        "image": "/assets/images/blog/post-placeholder.png"
+        "image": "/public/assets/customer/images/blog/post-placeholder.png"
       },
       {
         "id": "recent-3",
@@ -472,7 +472,7 @@
         "title": "Giúp thú cưng làm quen với môi trường mới",
         "excerpt": "Thông tin hữu ích từ chuyên gia giúp bạn chăm sóc thú cưng khỏe mạnh mỗi ngày.",
         "publishedAt": "3 Tháng 6, 2024",
-        "image": "/assets/images/blog/post-placeholder.png"
+        "image": "/public/assets/customer/images/blog/post-placeholder.png"
       },
       {
         "id": "recent-4",
@@ -482,7 +482,7 @@
         "title": "Hướng dẫn vệ sinh tai an toàn tại nhà",
         "excerpt": "Thông tin hữu ích từ chuyên gia giúp bạn chăm sóc thú cưng khỏe mạnh mỗi ngày.",
         "publishedAt": "3 Tháng 6, 2024",
-        "image": "/assets/images/blog/post-placeholder.png"
+        "image": "/public/assets/customer/images/blog/post-placeholder.png"
       },
       {
         "id": "recent-5",
@@ -492,7 +492,7 @@
         "title": "Những thực phẩm cần tránh trong khẩu phần của chó",
         "excerpt": "Thông tin hữu ích từ chuyên gia giúp bạn chăm sóc thú cưng khỏe mạnh mỗi ngày.",
         "publishedAt": "3 Tháng 6, 2024",
-        "image": "/assets/images/blog/post-placeholder.png"
+        "image": "/public/assets/customer/images/blog/post-placeholder.png"
       }
     ],
     "community": [
@@ -518,7 +518,7 @@
         "time": "4 giờ trước",
         "type": "Khoảnh khắc",
         "content": "Góc ngủ bá đạo của bé Miu nhà em. Mọi người có ảnh dìm hàng boss không ạ?",
-        "image": "/assets/images/blog/community-dog-park.png",
+        "image": "/public/assets/customer/images/blog/community-dog-park.png",
         "likes": 89,
         "comments": 12
       }

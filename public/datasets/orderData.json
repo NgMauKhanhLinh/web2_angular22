@@ -22,7 +22,7 @@
           "quantity": 2,
           "variant": "Màu xanh",
           "size": "1,5kg",
-          "image": "/assets/images/product/card-placeholder.png"
+          "image": "/public/assets/customer/images/product/card-placeholder.png"
         },
         {
           "id": "pet-bowl",
@@ -31,7 +31,7 @@
           "quantity": 1,
           "variant": "Màu vàng",
           "size": "M",
-          "image": "/assets/images/product/card-placeholder.png"
+          "image": "/public/assets/customer/images/product/card-placeholder.png"
         }
       ]
     },
@@ -56,7 +56,7 @@
           "quantity": 2,
           "variant": "Màu xanh",
           "size": "1,5kg",
-          "image": "/assets/images/product/card-placeholder.png"
+          "image": "/public/assets/customer/images/product/card-placeholder.png"
         }
       ]
     },
@@ -81,7 +81,7 @@
           "quantity": 2,
           "variant": "Màu xanh",
           "size": "1,5kg",
-          "image": "/assets/images/product/card-placeholder.png"
+          "image": "/public/assets/customer/images/product/card-placeholder.png"
         },
         {
           "id": "petsol-salmon",
@@ -90,7 +90,7 @@
           "quantity": 1,
           "variant": "Cá hồi",
           "size": "2kg",
-          "image": "/assets/images/product/card-placeholder.png"
+          "image": "/public/assets/customer/images/product/card-placeholder.png"
         }
       ]
     },
@@ -115,7 +115,7 @@
           "quantity": 1,
           "variant": "Cá hồi",
           "size": "2kg",
-          "image": "/assets/images/product/card-placeholder.png"
+          "image": "/public/assets/customer/images/product/card-placeholder.png"
         },
         {
           "id": "pet-bowl",
@@ -124,7 +124,7 @@
           "quantity": 1,
           "variant": "Màu vàng",
           "size": "M",
-          "image": "/assets/images/product/card-placeholder.png"
+          "image": "/public/assets/customer/images/product/card-placeholder.png"
         },
         {
           "id": "pet-toy",
@@ -133,7 +133,7 @@
           "quantity": 1,
           "variant": "Màu xanh",
           "size": "S",
-          "image": "/assets/images/product/card-placeholder.png"
+          "image": "/public/assets/customer/images/product/card-placeholder.png"
         }
       ]
     },
@@ -158,7 +158,7 @@
           "quantity": 2,
           "variant": "Màu xanh",
           "size": "1,5kg",
-          "image": "/assets/images/product/card-placeholder.png"
+          "image": "/public/assets/customer/images/product/card-placeholder.png"
         },
         {
           "id": "pet-bowl",
@@ -167,7 +167,7 @@
           "quantity": 1,
           "variant": "Màu vàng",
           "size": "M",
-          "image": "/assets/images/product/card-placeholder.png"
+          "image": "/public/assets/customer/images/product/card-placeholder.png"
         }
       ]
     },
@@ -192,7 +192,7 @@
           "quantity": 1,
           "variant": "Màu xanh",
           "size": "S",
-          "image": "/assets/images/product/card-placeholder.png"
+          "image": "/public/assets/customer/images/product/card-placeholder.png"
         }
       ]
     }

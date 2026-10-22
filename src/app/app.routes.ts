@@ -267,6 +267,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'login',
+        loadComponent: () =>
+          import('./features/customer/login/login.component').then(
+            (component) => component.LoginComponent,
+          ),
+      },
+      {
         path: 'orders',
         loadComponent: () =>
           import('./features/orders/orders-page.component').then(

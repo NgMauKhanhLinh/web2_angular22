@@ -52,7 +52,7 @@
       "time": "4 giờ trước",
       "type": "Khoảnh khắc",
       "content": "Góc ngủ bá đạo của bé Miu nhà em. Mọi người có ảnh dìm hàng boss không ạ?",
-      "image": "/assets/images/blog/community-dog-park.png",
+      "image": "/public/assets/customer/images/blog/community-dog-park.png",
       "likes": 89,
       "comments": 12
     }
@@ -61,13 +61,13 @@
     "id": "drpet-weekend-walk",
     "author": "Dr.Pet’s House",
     "time": "2 giờ trước",
-    "avatar": "/assets/images/blog/community-author.png",
+    "avatar": "/public/assets/customer/images/blog/community-author.png",
     "title": "Cuối tuần dạo chơi cùng bé Cún",
     "paragraphs": [
       "Thời tiết đẹp quá mọi người ạ! Nhớ mang theo nước uống đầy đủ cho các bé khi ra ngoài nhé.",
       "Dr.Pet’s House gợi ý nên đi dạo sau 5h chiều để tránh nắng nóng ảnh hưởng đến bàn chân của bé."
     ],
-    "image": "/assets/images/blog/community-dog-park.png",
+    "image": "/public/assets/customer/images/blog/community-dog-park.png",
     "likes": "1.2K",
     "comments": 124
   },

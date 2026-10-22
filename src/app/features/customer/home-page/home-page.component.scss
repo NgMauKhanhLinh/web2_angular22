@@ -15,7 +15,7 @@
   padding: 48px clamp(32px, 6vw, 92px);
   overflow: hidden;
   border-radius: 30px;
-  background: #e5f6fd url("/assets/images/home/hero-bg.png") center / cover no-repeat;
+  background: #e5f6fd url("/public/assets/customer/images/home/hero-bg.png") center / cover no-repeat;
 }
 
 .hero-copy {
@@ -364,7 +364,7 @@ h1, h2 {
 
 /* --- DOCTORS --- */
 .doctors-section {
-  background: #f0faff url("/assets/images/home/doctor-bg.png") center / 100% 100% no-repeat;
+  background: #f0faff url("/public/assets/customer/images/home/doctor-bg.png") center / 100% 100% no-repeat;
   padding: 64px 0;
 }
 
@@ -397,7 +397,7 @@ h1, h2 {
     max-width: 100%;
     margin: 14px auto 4px;
     padding: 9px 16px;
-    background: url("/assets/images/home/doctor-name-bg.png") center / 100% 100% no-repeat;
+    background: url("/public/assets/customer/images/home/doctor-name-bg.png") center / 100% 100% no-repeat;
     font-size: 0.94rem;
   }
 

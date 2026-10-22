@@ -24,19 +24,19 @@
   "HOME_BLOG_POST_TITLE": "8 Figma design systems that you can download for free today.",
   "HOME_DOCTORS": [
     {
-      "image": "/assets/images/home/doctor-1.png",
+      "image": "/public/assets/customer/images/home/doctor-1.png",
       "name": "BS. Nguyễn Minh Anh"
     },
     {
-      "image": "/assets/images/home/doctor-2.png",
+      "image": "/public/assets/customer/images/home/doctor-2.png",
       "name": "BS. Trần Quốc Huy"
     },
     {
-      "image": "/assets/images/home/doctor-3.png",
+      "image": "/public/assets/customer/images/home/doctor-3.png",
       "name": "BS. Lê Khánh Linh"
     },
     {
-      "image": "/assets/images/home/doctor-4.png",
+      "image": "/public/assets/customer/images/home/doctor-4.png",
       "name": "BS. Phạm Đức Thành"
     }
   ],
@@ -62,19 +62,19 @@
   ],
   "HOME_SERVICES": [
     {
-      "image": "/assets/images/home/service-1.png",
+      "image": "/public/assets/customer/images/home/service-1.png",
       "title": "Khám & Điều trị",
       "description": "Đội ngũ bác sĩ chuyên khoa cùng trang thiết bị hiện đại, chẩn đoán chính xác, điều trị tận tâm và hỗ trợ cấp cứu cho bé yêu 24/7.",
       "href": "/dich-vu/kham-dieu-tri"
     },
     {
-      "image": "/assets/images/home/service-2.png",
+      "image": "/public/assets/customer/images/home/service-2.png",
       "title": "Grooming & Spa",
       "description": "Dịch vụ tắm sấy, cắt tỉa lông và chăm sóc vệ sinh giúp thú cưng luôn sạch sẽ, khỏe mạnh và thoải mái.",
       "href": "/dich-vu/grooming-spa"
     },
     {
-      "image": "/assets/images/home/service-3.png",
+      "image": "/public/assets/customer/images/home/service-3.png",
       "title": "Pet Shop",
       "description": "Cung cấp đa dạng sản phẩm dành cho thú cưng như thức ăn, phụ kiện, đồ chơi và sản phẩm chăm sóc sức khỏe từ nhiều thương hiệu uy tín.",
       "href": "/cua-hang"

@@ -1,0 +1,35 @@
+<div class="notification-bell shrink-0 {{ className }}">
+  <button
+    type="button"
+    class="notification-bell__button btn-icon {{ buttonClassName }}"
+    [attr.aria-label]="'Thông báo' + (unreadCount() > 0 ? ', ' + unreadCount() + ' chưa đọc' : '')"
+    [attr.aria-expanded]="isOpen()"
+    aria-haspopup="dialog"
+    (click)="toggleOpen()"
+  >
+    <img
+      [src]="notificationIcon"
+      alt="Thông báo"
+      class="{{ iconClassName }}"
+    />
+    @if (unreadCount() > 0) {
+      <span class="notification-bell__badge {{ badgeClassName }}" aria-hidden="true">
+        {{ unreadCount() > 9 ? '9+' : unreadCount() }}
+      </span>
+    }
+  </button>
+
+  @if (isOpen()) {
+    <app-notification-popup
+      [filteredItems]="filteredItems()"
+      [unreadCount]="unreadCount()"
+      [activeFilter]="activeFilter()"
+      [searchValue]="searchValue()"
+      (close)="close()"
+      (filterChange)="onFilterChange($event)"
+      (searchChange)="onSearchChange($event)"
+      (read)="onRead($event)"
+      (readAll)="onReadAll()"
+    ></app-notification-popup>
+  }
+</div>

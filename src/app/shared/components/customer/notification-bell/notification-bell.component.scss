@@ -1,0 +1,28 @@
+.notification-bell {
+  position: relative;
+  display: inline-flex;
+}
+
+.notification-bell__button {
+  position: relative;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.notification-bell__badge {
+  position: absolute;
+  right: -1px;
+  bottom: 1px;
+  display: inline-flex;
+  min-width: 16px;
+  height: 16px;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: #f45757;
+  color: #fff;
+  font: 700 10px/12px Roboto, system-ui, sans-serif;
+  pointer-events: none;
+}

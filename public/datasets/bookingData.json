@@ -3,32 +3,32 @@
     {
       "id": "momo",
       "label": "MoMo",
-      "icon": "/assets/images/booking/online_momo_logo.png"
+      "icon": "/public/assets/customer/images/booking/online_momo_logo.png"
     },
     {
       "id": "zalopay",
       "label": "ZaloPay",
-      "icon": "/assets/images/booking/online_zalopay_logo.png"
+      "icon": "/public/assets/customer/images/booking/online_zalopay_logo.png"
     },
     {
       "id": "vnpay",
       "label": "VNPay",
-      "icon": "/assets/images/booking/online_vnpay_logo.png"
+      "icon": "/public/assets/customer/images/booking/online_vnpay_logo.png"
     },
     {
       "id": "bank",
       "label": "Chuyển khoản ngân hàng",
-      "icon": "/assets/icons/booking/online_bank_icon.svg"
+      "icon": "/public/assets/customer/icons/booking/online_bank_icon.svg"
     },
     {
       "id": "atm",
       "label": "Thẻ ATM",
-      "icon": "/assets/icons/booking/online_card_icon.svg"
+      "icon": "/public/assets/customer/icons/booking/online_card_icon.svg"
     },
     {
       "id": "card",
       "label": "Thẻ Tín dụng/Ghi nợ",
-      "icon": "/assets/icons/booking/online_creditcard_icon.svg"
+      "icon": "/public/assets/customer/icons/booking/online_creditcard_icon.svg"
     }
   ],
   "BOOKING_SERVICES": [
@@ -109,13 +109,13 @@
       "id": "clinic",
       "title": "Khám & Điều trị",
       "desc": "Khám sức khỏe và điều trị bệnh",
-      "icon": "/assets/icons/booking/service_veterinary_clinic_icon.jpg"
+      "icon": "/public/assets/customer/icons/booking/service_veterinary_clinic_icon.jpg"
     },
     {
       "id": "grooming",
       "title": "Grooming & Spa",
       "desc": "Tắm, cắt tỉa, làm đẹp cho thú cưng",
-      "icon": "/assets/icons/booking/service_spa_grooming_icon.jpg"
+      "icon": "/public/assets/customer/icons/booking/service_spa_grooming_icon.jpg"
     }
   ],
   "BOOKING_SERVICE_TYPE_RULES": {

@@ -45,23 +45,23 @@
   "FOOTER_SOCIALS": [
     {
       "name": "YouTube",
-      "icon": "/assets/images/footer/youtube.svg"
+      "icon": "/public/assets/customer/images/footer/youtube.svg"
     },
     {
       "name": "Facebook",
-      "icon": "/assets/images/footer/facebook.svg"
+      "icon": "/public/assets/customer/images/footer/facebook.svg"
     },
     {
       "name": "Twitter",
-      "icon": "/assets/images/footer/twitter.svg"
+      "icon": "/public/assets/customer/images/footer/twitter.svg"
     },
     {
       "name": "Instagram",
-      "icon": "/assets/images/footer/instagram.svg"
+      "icon": "/public/assets/customer/images/footer/instagram.svg"
     },
     {
       "name": "LinkedIn",
-      "icon": "/assets/images/footer/linkedin.svg"
+      "icon": "/public/assets/customer/images/footer/linkedin.svg"
     }
   ]
 }

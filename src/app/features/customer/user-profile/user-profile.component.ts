@@ -32,7 +32,7 @@
 //   private readonly auth = inject(AuthService);
 //   private readonly profileService = inject(UserProfileService);
 
-//   readonly defaultAvatar = '/assets/images/profile/user-avatar.png';
+//   readonly defaultAvatar = '/public/assets/customer/images/profile/user-avatar.png';
 
 //   // Signals quản lý State
 //   readonly profile = signal<UserProfileRecord>(this.loadStored(PROFILE_KEY, EMPTY_PROFILE));

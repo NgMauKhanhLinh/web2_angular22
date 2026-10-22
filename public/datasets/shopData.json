@@ -105,31 +105,31 @@
   "PRODUCT_CATEGORIES": [
     {
       "label": "Thức ăn",
-      "image": "/assets/images/home/category1.png",
+      "image": "/public/assets/customer/images/home/category1.png",
       "slug": "thuc-an",
       "count": 12
     },
     {
       "label": "Đồ dùng thiết yếu",
-      "image": "/assets/images/home/category2.png",
+      "image": "/public/assets/customer/images/home/category2.png",
       "slug": "do-dung-thiet-yeu",
       "count": 8
     },
     {
       "label": "Chăm sóc sức khỏe",
-      "image": "/assets/images/home/category3.png",
+      "image": "/public/assets/customer/images/home/category3.png",
       "slug": "cham-soc-suc-khoe",
       "count": 15
     },
     {
       "label": "Đồ chơi",
-      "image": "/assets/images/home/category4.png",
+      "image": "/public/assets/customer/images/home/category4.png",
       "slug": "do-choi",
       "count": 6
     },
     {
       "label": "Phụ kiện",
-      "image": "/assets/images/home/category5.png",
+      "image": "/public/assets/customer/images/home/category5.png",
       "slug": "phu-kien",
       "count": 20
     }
@@ -526,21 +526,21 @@
   "SHOP_PROMOTION_PAGES": [
     [
       {
-        "image": "/assets/images/shop/promo-banner-1.png",
+        "image": "/public/assets/customer/images/shop/promo-banner-1.png",
         "productId": 1
       },
       {
-        "image": "/assets/images/shop/promo-banner-2.png",
+        "image": "/public/assets/customer/images/shop/promo-banner-2.png",
         "productId": 2
       }
     ],
     [
       {
-        "image": "/assets/images/shop/promo-banner-3.png",
+        "image": "/public/assets/customer/images/shop/promo-banner-3.png",
         "productId": 3
       },
       {
-        "image": "/assets/images/shop/promo-banner-4.png",
+        "image": "/public/assets/customer/images/shop/promo-banner-4.png",
         "productId": 4
       }
     ]

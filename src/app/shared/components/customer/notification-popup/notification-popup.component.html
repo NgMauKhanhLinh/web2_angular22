@@ -1,0 +1,75 @@
+<section
+  class="notification-popover"
+  role="dialog"
+  aria-modal="false"
+  aria-label="Thông báo"
+>
+  <div class="notification-popover__header">
+    <div class="notification-popover__header-main">
+      <h2 class="notification-popover__title">Thông báo</h2>
+      <button
+        type="button"
+        class="notification-popover__read-all"
+        (click)="readAll.emit()"
+        [disabled]="unreadCount === 0"
+      >
+        Đánh dấu tất cả là đã đọc
+      </button>
+    </div>
+    <button
+      type="button"
+      class="notification-popover__close"
+      (click)="close.emit()"
+      aria-label="Đóng thông báo"
+    >
+      <img [src]="iconClose" alt="" />
+    </button>
+  </div>
+
+  <div class="notification-popover__toolbar">
+    <label class="notification-popover__search">
+      <img
+        [src]="iconSearchPaw"
+        alt=""
+        class="notification-popover__search-icon"
+      />
+      <input
+        class="notification-popover__search-input"
+        [ngModel]="searchValue"
+        (ngModelChange)="searchChange.emit($event)"
+        placeholder="Tìm tên thú cưng..."
+        aria-label="Tìm tên thú cưng"
+      />
+    </label>
+
+    <div class="notification-popover__filters">
+      @for (filter of filters; track filter.id) {
+        <button
+          type="button"
+          class="notification-popover__filter"
+          [class.notification-popover__filter--active]="activeFilter === filter.id"
+          (click)="filterChange.emit(filter.id)"
+        >
+          {{ filter.label }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="notification-popover__body">
+    <div class="notification-popover__list">
+      @if (filteredItems.length > 0) {
+        @for (item of filteredItems; track item.id) {
+          <app-notification-item
+            [item]="item"
+            (read)="read.emit($event)"
+          ></app-notification-item>
+        }
+      } @else {
+        <div class="notification-popover__empty">
+          Không có thông báo phù hợp.
+        </div>
+      }
+    </div>
+  </div>
+</section>

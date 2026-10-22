@@ -10,19 +10,19 @@
       "meta": [
         {
           "id": "author",
-          "icon": "/assets/images/policy/meta-author.svg",
+          "icon": "/public/assets/customer/images/policy/meta-author.svg",
           "iconClassName": "size-4",
           "label": "Admin"
         },
         {
           "id": "date",
-          "icon": "/assets/images/policy/meta-date.svg",
+          "icon": "/public/assets/customer/images/policy/meta-date.svg",
           "iconClassName": "h-5 w-[18px]",
           "label": "24 Tháng 05, 2026"
         },
         {
           "id": "read-time",
-          "icon": "/assets/images/policy/meta-read-time.svg",
+          "icon": "/public/assets/customer/images/policy/meta-read-time.svg",
           "iconClassName": "size-5",
           "label": "5 phút đọc",
           "italic": true
@@ -283,19 +283,19 @@
       "meta": [
         {
           "id": "author",
-          "icon": "/assets/images/policy/meta-author.svg",
+          "icon": "/public/assets/customer/images/policy/meta-author.svg",
           "iconClassName": "size-4",
           "label": "Admin"
         },
         {
           "id": "date",
-          "icon": "/assets/images/policy/meta-date.svg",
+          "icon": "/public/assets/customer/images/policy/meta-date.svg",
           "iconClassName": "h-5 w-[18px]",
           "label": "24 Tháng 05, 2026"
         },
         {
           "id": "read-time",
-          "icon": "/assets/images/policy/meta-read-time.svg",
+          "icon": "/public/assets/customer/images/policy/meta-read-time.svg",
           "iconClassName": "size-5",
           "label": "5 phút đọc",
           "italic": true
@@ -572,19 +572,19 @@
       "meta": [
         {
           "id": "author",
-          "icon": "/assets/images/policy/meta-author.svg",
+          "icon": "/public/assets/customer/images/policy/meta-author.svg",
           "iconClassName": "size-4",
           "label": "Admin"
         },
         {
           "id": "date",
-          "icon": "/assets/images/policy/meta-date.svg",
+          "icon": "/public/assets/customer/images/policy/meta-date.svg",
           "iconClassName": "h-5 w-[18px]",
           "label": "24 Tháng 05, 2026"
         },
         {
           "id": "read-time",
-          "icon": "/assets/images/policy/meta-read-time.svg",
+          "icon": "/public/assets/customer/images/policy/meta-read-time.svg",
           "iconClassName": "size-5",
           "label": "5 phút đọc",
           "italic": true
@@ -696,19 +696,19 @@
       "meta": [
         {
           "id": "author",
-          "icon": "/assets/images/policy/meta-author.svg",
+          "icon": "/public/assets/customer/images/policy/meta-author.svg",
           "iconClassName": "size-4",
           "label": "Admin"
         },
         {
           "id": "date",
-          "icon": "/assets/images/policy/meta-date.svg",
+          "icon": "/public/assets/customer/images/policy/meta-date.svg",
           "iconClassName": "h-5 w-[18px]",
           "label": "24 Tháng 05, 2026"
         },
         {
           "id": "read-time",
-          "icon": "/assets/images/policy/meta-read-time.svg",
+          "icon": "/public/assets/customer/images/policy/meta-read-time.svg",
           "iconClassName": "size-5",
           "label": "5 phút đọc",
           "italic": true
@@ -912,19 +912,19 @@
       "meta": [
         {
           "id": "author",
-          "icon": "/assets/images/policy/meta-author.svg",
+          "icon": "/public/assets/customer/images/policy/meta-author.svg",
           "iconClassName": "size-4",
           "label": "Admin"
         },
         {
           "id": "date",
-          "icon": "/assets/images/policy/meta-date.svg",
+          "icon": "/public/assets/customer/images/policy/meta-date.svg",
           "iconClassName": "h-5 w-[18px]",
           "label": "24 Tháng 05, 2026"
         },
         {
           "id": "read-time",
-          "icon": "/assets/images/policy/meta-read-time.svg",
+          "icon": "/public/assets/customer/images/policy/meta-read-time.svg",
           "iconClassName": "size-5",
           "label": "5 phút đọc",
           "italic": true
@@ -1079,19 +1079,19 @@
       "meta": [
         {
           "id": "author",
-          "icon": "/assets/images/policy/meta-author.svg",
+          "icon": "/public/assets/customer/images/policy/meta-author.svg",
           "iconClassName": "size-4",
           "label": "Admin"
         },
         {
           "id": "date",
-          "icon": "/assets/images/policy/meta-date.svg",
+          "icon": "/public/assets/customer/images/policy/meta-date.svg",
           "iconClassName": "h-5 w-[18px]",
           "label": "24 Tháng 05, 2026"
         },
         {
           "id": "read-time",
-          "icon": "/assets/images/policy/meta-read-time.svg",
+          "icon": "/public/assets/customer/images/policy/meta-read-time.svg",
           "iconClassName": "size-5",
           "label": "5 phút đọc",
           "italic": true
@@ -1264,19 +1264,19 @@
       "meta": [
         {
           "id": "author",
-          "icon": "/assets/images/policy/meta-author.svg",
+          "icon": "/public/assets/customer/images/policy/meta-author.svg",
           "iconClassName": "size-4",
           "label": "Admin"
         },
         {
           "id": "date",
-          "icon": "/assets/images/policy/meta-date.svg",
+          "icon": "/public/assets/customer/images/policy/meta-date.svg",
           "iconClassName": "h-5 w-[18px]",
           "label": "24 Tháng 05, 2026"
         },
         {
           "id": "read-time",
-          "icon": "/assets/images/policy/meta-read-time.svg",
+          "icon": "/public/assets/customer/images/policy/meta-read-time.svg",
           "iconClassName": "size-5",
           "label": "5 phút đọc",
           "italic": true
@@ -1434,19 +1434,19 @@
       "meta": [
         {
           "id": "author",
-          "icon": "/assets/images/policy/meta-author.svg",
+          "icon": "/public/assets/customer/images/policy/meta-author.svg",
           "iconClassName": "size-4",
           "label": "Admin"
         },
         {
           "id": "date",
-          "icon": "/assets/images/policy/meta-date.svg",
+          "icon": "/public/assets/customer/images/policy/meta-date.svg",
           "iconClassName": "h-5 w-[18px]",
           "label": "24 Tháng 05, 2026"
         },
         {
           "id": "read-time",
-          "icon": "/assets/images/policy/meta-read-time.svg",
+          "icon": "/public/assets/customer/images/policy/meta-read-time.svg",
           "iconClassName": "size-5",
           "label": "5 phút đọc",
           "italic": true

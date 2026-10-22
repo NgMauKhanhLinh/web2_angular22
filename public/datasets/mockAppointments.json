@@ -24,7 +24,7 @@
         "age": "3 năm",
         "gender": "Cái",
         "weight": "5.2kg",
-        "image": "/assets/images/appointment/pet-lulu.png",
+        "image": "/public/assets/customer/images/appointment/pet-lulu.png",
         "healthBadge": "Dị ứng nhẹ",
         "note": "Lu Lu hơi nhạy cảm với tiếng máy sấy."
       },
@@ -62,7 +62,7 @@
         "age": "2 năm",
         "gender": "Đực",
         "weight": "4.5kg",
-        "image": "/assets/images/appointment/pet-bop.png",
+        "image": "/public/assets/customer/images/appointment/pet-bop.png",
         "healthBadge": "Có bệnh nền",
         "note": "Max hay cắn khi sấy tóc."
       },
@@ -100,7 +100,7 @@
         "age": "4 năm",
         "gender": "Cái",
         "weight": "3.8kg",
-        "image": "/assets/images/appointment/pet-kem.png",
+        "image": "/public/assets/customer/images/appointment/pet-kem.png",
         "healthBadge": "",
         "note": "Kem cần nghỉ 5 phút sau mỗi bước grooming."
       },
@@ -138,7 +138,7 @@
         "age": "1 năm",
         "gender": "Đực",
         "weight": "4.1kg",
-        "image": "/assets/images/appointment/pet-lucky.png",
+        "image": "/public/assets/customer/images/appointment/pet-lucky.png",
         "healthBadge": "",
         "note": ""
       },
@@ -176,7 +176,7 @@
         "age": "2 năm",
         "gender": "Cái",
         "weight": "4.7kg",
-        "image": "/assets/images/appointment/pet-mimi.png",
+        "image": "/public/assets/customer/images/appointment/pet-mimi.png",
         "healthBadge": "",
         "note": ""
       },

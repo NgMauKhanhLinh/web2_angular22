@@ -1,0 +1,238 @@
+@if (isOpen()) {
+  <div
+    class="overlay-fade-in fixed inset-0 z-[200] flex items-center justify-center bg-[#06105a40] p-3 backdrop-blur-sm"
+    (mousedown)="$event.target === $event.currentTarget && closeModal()"
+  >
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Tài khoản"
+      class="relative max-h-[calc(100vh-24px)] w-full max-w-[360px] overflow-y-auto rounded-xl md:max-w-[744px] lg:max-w-[930px]"
+    >
+      <button
+        type="button"
+        (click)="closeModal()"
+        class="btn-icon-subtle absolute right-[13px] top-[13px] z-20 p-0 text-gray-500 md:right-[17px] md:top-8"
+        aria-label="Đóng"
+      >
+        ✕
+      </button>
+
+      <!-- Split Layout: Đăng nhập & Đăng ký -->
+      @if (viewService.isSplitScreen()) {
+        <div class="flex flex-col overflow-hidden rounded-xl bg-white shadow-2xl md:min-h-[637px] md:flex-row">
+          <!-- Sidebar Artwork -->
+          <aside class="relative flex h-[242px] w-full shrink-0 flex-col items-center justify-center overflow-hidden bg-[#90CAF9] px-5 text-center md:h-auto md:w-1/2 md:self-stretch md:px-8 lg:w-[48%]">
+            <img [src]="viewService.viewModel.assets.backgroundBlob" alt="" aria-hidden="true" class="pointer-events-none absolute -left-[124px] top-[48px] h-[624px] w-[561px] max-w-none select-none md:-left-[235px] md:-top-[105px] md:h-[817px] md:w-[910px]" />
+            <img [src]="viewService.viewModel.assets.logo" alt="Dr. Pet's House" class="absolute left-[13px] top-[3px] z-10 h-[56px] w-[101px] object-contain md:left-5 md:top-5 md:h-[78px] md:w-auto" />
+            <img [src]="viewService.screen() === 'login' ? viewService.viewModel.assets.loginArtwork : viewService.viewModel.assets.registerArtwork" alt="" class="relative z-10 h-[116px] w-[118px] rounded-full border-4 border-white bg-white object-cover shadow-lg md:h-[183px] md:w-[180px] lg:h-64 lg:w-64" />
+            <h2 class="relative z-10 mt-1 text-[16px] font-semibold leading-8 text-[#191C1E] md:mt-6 md:text-2xl">
+              {{ viewService.viewModel.welcome[viewService.screen() === 'login' ? 'login' : 'register'].heading }}
+            </h2>
+            <p class="relative z-10 max-w-[320px] text-center text-[12px] leading-[1.3] md:mt-2 md:text-[16px] md:leading-6">
+              {{ viewService.viewModel.welcome[viewService.screen() === 'login' ? 'login' : 'register'].description }}
+            </p>
+          </aside>
+
+          <!-- Form Area -->
+          <section class="flex flex-1 flex-col justify-center bg-white px-5 pb-[15px] md:h-[637px] md:px-[30px] md:py-12 lg:px-12">
+            <div [class]="viewService.screen() === 'login' ? 'pb-8 pt-4' : 'pb-[19px] pt-4'">
+              <h1 class="text-[20px] font-bold leading-[1.5] md:text-[32px] md:leading-10">
+                {{ viewService.screenContent(viewService.screen()).heading }}
+              </h1>
+              <p class="mt-2 text-[12px] leading-6 md:text-[16px]">
+                {{ viewService.screenContent(viewService.screen()).description }}
+              </p>
+            </div>
+
+            <!-- FORM ĐĂNG NHẬP -->
+            @if (viewService.screen() === 'login') {
+              <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" noValidate class="flex flex-col gap-5">
+                <label class="block text-sm font-semibold text-[rgba(0,0,0,0.87)]">
+                  <span>Số điện thoại / Email<span class="text-[#c62828]">*</span></span>
+                  <span class="relative mt-1 block">
+                    <input formControlName="phone" type="text" placeholder="Nhập SĐT hoặc Email" class="h-[37px] w-full rounded-[6px] border border-[rgba(0,0,0,0.42)] px-3 text-sm outline-none focus:border-[#0d47a1]" />
+                  </span>
+                  @if (loginForm.get('phone')?.touched && loginForm.get('phone')?.errors) {
+                    <span class="mt-1 block text-xs text-[#c62828]">Vui lòng nhập đúng số điện thoại hoặc email</span>
+                  }
+                </label>
+
+                <label class="block text-sm font-semibold text-[rgba(0,0,0,0.87)]">
+                  <span>Mật khẩu<span class="text-[#c62828]">*</span></span>
+                  <span class="relative mt-1 block">
+                    <input [type]="showPassword() ? 'text' : 'password'" formControlName="password" placeholder="Nhập mật khẩu" class="h-[37px] w-full rounded-[6px] border border-[rgba(0,0,0,0.42)] px-3 pr-10 text-sm outline-none focus:border-[#0d47a1]" />
+                    <button type="button" (click)="togglePasswordVisibility('pass')" class="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-500">
+                      {{ showPassword() ? 'Ẩn' : 'Hiện' }}
+                    </button>
+                  </span>
+                </label>
+
+                @if (submitError()) {
+                  <p class="rounded bg-red-50 px-3 py-2 text-sm text-[#c62828]">{{ submitError() }}</p>
+                }
+
+                <div class="flex items-center justify-between pb-2 text-sm">
+                  <label class="flex items-center gap-2">
+                    <input type="checkbox" formControlName="remember" class="size-4" /> Ghi nhớ đăng nhập
+                  </label>
+                  <button type="button" (click)="changeScreen('forgot')" class="font-semibold text-blue-900">Quên mật khẩu?</button>
+                </div>
+
+                <button type="submit" [disabled]="submitting()" class="btn-yellow h-[43px] w-full disabled:opacity-50">
+                  {{ submitting() ? 'ĐANG ĐĂNG NHẬP...' : 'ĐĂNG NHẬP' }}
+                </button>
+                <p class="text-center text-sm">
+                  Chưa có tài khoản?
+                  <button type="button" (click)="changeScreen('register')" class="font-semibold text-blue-900">Đăng ký ngay</button>
+                </p>
+              </form>
+            }
+
+            <!-- FORM ĐĂNG KÝ -->
+            @if (viewService.screen() === 'register') {
+              <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()" noValidate class="flex flex-col gap-4">
+                <label class="block text-sm font-semibold">
+                  Họ và Tên*
+                  <input formControlName="name" class="h-[37px] w-full rounded border px-3 text-sm" />
+                </label>
+                <div class="grid grid-cols-2 gap-2">
+                  <label class="block text-sm font-semibold">
+                    Số điện thoại*
+                    <input formControlName="phone" type="tel" class="h-[37px] w-full rounded border px-3 text-sm" />
+                  </label>
+                  <label class="block text-sm font-semibold">
+                    Email
+                    <input formControlName="email" type="email" class="h-[37px] w-full rounded border px-3 text-sm" />
+                  </label>
+                </div>
+                <label class="block text-sm font-semibold">
+                  Mật khẩu*
+                  <input [type]="showPassword() ? 'text' : 'password'" formControlName="password" class="h-[37px] w-full rounded border px-3 text-sm" />
+                  <span class="text-[11px] font-normal italic text-gray-500">Tối thiểu 8 ký tự, 1 chữ hoa, 1 số</span>
+                </label>
+                <label class="block text-sm font-semibold">
+                  Xác nhận mật khẩu*
+                  <input [type]="showConfirmPassword() ? 'text' : 'password'" formControlName="confirmPassword" class="h-[37px] w-full rounded border px-3 text-sm" />
+                </label>
+
+                @if (submitError()) {
+                  <p class="rounded bg-red-50 px-3 py-2 text-sm text-[#c62828]">{{ submitError() }}</p>
+                }
+
+                <button type="submit" [disabled]="submitting()" class="btn-yellow h-[43px] w-full disabled:opacity-50">
+                  {{ submitting() ? 'ĐANG GỬI OTP...' : 'ĐĂNG KÝ NGAY' }}
+                </button>
+                <p class="text-center text-sm">
+                  Đã có tài khoản?
+                  <button type="button" (click)="changeScreen('login')" class="font-semibold text-blue-900">Đăng nhập ngay</button>
+                </p>
+              </form>
+            }
+          </section>
+        </div>
+      }
+
+      <!-- Recovery Panel: Forgot / OTP / Reset Password -->
+      @if (!viewService.isSplitScreen() && viewService.screen() !== 'success') {
+        <div class="relative flex w-full flex-col items-center overflow-hidden rounded-xl bg-[#90CAF9] px-5 pb-[15px] pt-14 shadow-2xl md:min-h-[637px] md:flex-row md:p-12">
+          <img [src]="viewService.viewModel.assets.backgroundBlob" alt="" class="absolute -left-[142px] top-[-1px] h-[865px] w-[802px] max-w-none md:-left-[3px] md:top-[23px]" />
+          <img [src]="viewService.viewModel.assets.logo" alt="Dr. Pet's House" class="absolute left-[13px] top-[3px] z-10 h-[56px] w-[101px] object-contain md:left-5 md:top-5 md:h-[78px] md:w-auto" />
+          <div class="relative z-10 flex h-[244px] w-[232px] shrink-0 items-center justify-center md:w-1/2 md:pr-7 md:pt-10">
+            <img [src]="viewService.viewModel.assets.recoveryArtwork" alt="" class="h-[206px] w-[232px] rounded-full bg-white object-cover shadow-lg md:h-[350px] md:w-[380px]" />
+          </div>
+
+          <section class="relative z-10 mx-auto w-full max-w-[420px] pb-[15px]">
+            <h1 class="mb-[-8px] text-[20px] font-extrabold text-[#060b16] md:mb-0 md:text-[30px]">
+              {{ viewService.screenContent(viewService.screen(), otpRecipient).heading }}
+            </h1>
+            <p class="mb-[23.5px] text-[12px] text-[#4f5359] md:mb-6 md:mt-2 md:text-[16px]">
+              {{ viewService.screenContent(viewService.screen(), otpRecipient).description }}
+            </p>
+
+            <!-- Quên mật khẩu Form -->
+            @if (viewService.screen() === 'forgot') {
+              <form [formGroup]="forgotForm" (ngSubmit)="onForgotSubmit()" class="flex flex-col gap-[23.5px]">
+                <label class="block text-sm font-medium text-[#060B16]">
+                  Số điện thoại / Email*
+                  <input formControlName="account" class="mt-[6px] h-12 w-full rounded-xl border border-[#C6DCE3] bg-[#FAFEFF] px-4 text-[16px] outline-none" />
+                </label>
+                @if (submitError()) {
+                  <p class="rounded bg-red-50 px-3 py-2 text-sm text-[#c62828]">{{ submitError() }}</p>
+                }
+                <button type="submit" [disabled]="submitting()" class="btn-yellow h-[43px] w-full">
+                  {{ submitting() ? 'ĐANG GỬI...' : 'GỬI MÃ XÁC NHẬN' }}
+                </button>
+                <button type="button" (click)="changeScreen('login')" class="text-sm text-[#7e8085]">← Quay lại đăng nhập</button>
+              </form>
+            }
+
+            <!-- OTP Form -->
+            @if (viewService.screen() === 'resetOtp' || viewService.screen() === 'registerOtp') {
+              <form (ngSubmit)="onOtpSubmit()" class="flex flex-col gap-[23.5px]">
+                <div class="flex h-14 justify-between gap-2">
+                  @for (digit of otpValues(); track $index) {
+                    <input
+                      #otpInput
+                      [value]="digit"
+                      (input)="onOtpInput($index, $event)"
+                      (keydown)="onOtpKeyDown($index, $event)"
+                      inputmode="numeric"
+                      class="h-14 min-w-0 max-w-14 flex-1 rounded-xl border border-[#C6DCE3] bg-[#FAFEFF] text-center text-xl font-bold outline-none focus:border-[#0D47A1]"
+                    />
+                  }
+                </div>
+                @if (submitError()) {
+                  <p class="rounded bg-red-50 px-3 py-2 text-sm text-[#c62828]">{{ submitError() }}</p>
+                }
+                <button type="submit" [disabled]="submitting()" class="btn-yellow h-[43px] w-full">
+                  {{ submitting() ? 'ĐANG XÁC NHẬN...' : 'XÁC NHẬN' }}
+                </button>
+                <button type="button" (click)="changeScreen(viewService.screen() === 'registerOtp' ? 'register' : 'forgot')" class="text-sm text-[#7e8085]">
+                  ← Quay lại
+                </button>
+              </form>
+            }
+
+            <!-- Reset Password Form -->
+            @if (viewService.screen() === 'reset') {
+              <form [formGroup]="resetForm" (ngSubmit)="onResetSubmit()" class="flex flex-col gap-[23.5px]">
+                <label class="block text-sm font-medium">
+                  Mật khẩu mới*
+                  <input formControlName="password" type="password" placeholder="Tối thiểu 8 ký tự" class="mt-[6px] h-12 w-full rounded-xl border bg-[#FAFEFF] px-4 text-[16px]" />
+                </label>
+                <label class="block text-sm font-medium">
+                  Xác nhận mật khẩu*
+                  <input formControlName="confirmPassword" type="password" placeholder="Nhập lại mật khẩu" class="mt-[6px] h-12 w-full rounded-xl border bg-[#FAFEFF] px-4 text-[16px]" />
+                </label>
+                @if (submitError()) {
+                  <p class="rounded bg-red-50 px-3 py-2 text-sm text-[#c62828]">{{ submitError() }}</p>
+                }
+                <button type="submit" [disabled]="submitting()" class="btn-yellow h-[43px] w-full">
+                  {{ submitting() ? 'ĐANG ĐỔI...' : 'ĐỔI MẬT KHẨU' }}
+                </button>
+              </form>
+            }
+          </section>
+        </div>
+      }
+
+      <!-- Panel Đăng ký thành công -->
+      @if (viewService.screen() === 'success') {
+        <div class="relative flex min-h-[646px] w-full flex-col items-center overflow-hidden rounded-xl bg-white pb-[15px] pt-[67px] shadow-2xl md:min-h-[560px] md:flex-row md:justify-center md:gap-10 md:p-10">
+          <img [src]="viewService.viewModel.assets.logo" alt="Dr. Pet's House" class="absolute left-[13px] top-[3px] h-[56px] w-[101px] object-contain md:left-6 md:top-5 md:h-[78px] md:w-auto" />
+          <div class="border-[3px] border-dashed border-[#ffb300] p-2">
+            <img [src]="viewService.viewModel.assets.successArtwork" alt="" class="h-[222px] w-[197px] rounded bg-[#E5F6FD] object-cover md:h-[300px] md:w-[270px]" />
+          </div>
+          <div class="flex w-full max-w-[425px] flex-col items-center px-5 pt-3 text-center md:px-0">
+            <h1 class="mt-5 text-[20px] font-bold md:text-3xl">Đăng ký thành công!</h1>
+            <p class="mt-3 text-[16px] md:text-lg">Chào mừng bạn đến với <strong>Dr. Pet's House</strong></p>
+            <button type="button" (click)="changeScreen('login')" class="btn-yellow mt-6 h-[43px] w-full">
+              ĐĂNG NHẬP NGAY →
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}

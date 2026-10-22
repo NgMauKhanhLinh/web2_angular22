@@ -29,7 +29,7 @@
       "title": "Sơ cứu khi chó bị hóc dị vật",
       "heroTitle": "Sơ cứu khi chó bị hóc dị vật: Phản ứng nhanh trong 60 giây",
       "description": "Khi chó có dấu hiệu nghẹt thở, khó thở hoặc liên tục dùng chân cào vào miệng, rất có thể chúng đang bị hóc dị vật. Đây là tình huống đe dọa tính mạng cần được xử lý bình tĩnh và chính xác ngay lập tức.",
-      "image": "/assets/images/blog/first-aid-choking.png",
+      "image": "/public/assets/customer/images/blog/first-aid-choking.png",
       "steps": [
         {
           "title": "Kiểm tra khoang miệng",
@@ -61,7 +61,7 @@
       "categoryLabel": "Tai nạn",
       "variant": "urgent",
       "urgent": true,
-      "image": "/assets/images/blog/first-aid-choking.png",
+      "image": "/public/assets/customer/images/blog/first-aid-choking.png",
       "title": "Sơ cứu khi chó bị hóc dị vật",
       "description": "Nhận biết dấu hiệu khó thở, nôn mửa và cách thực hiện nghiệm pháp ép vùng ngực an toàn."
     },
@@ -70,7 +70,7 @@
       "category": "poisoning",
       "categoryLabel": "Ngộ độc",
       "variant": "image",
-      "image": "/assets/images/blog/post-placeholder.png",
+      "image": "/public/assets/customer/images/blog/post-placeholder.png",
       "title": "Xử lý mèo bị ngộ độc thực phẩm",
       "description": "Các bước cần làm ngay khi mèo nuốt phải chocolate, cây độc hoặc hóa chất tẩy rửa."
     },
@@ -79,7 +79,7 @@
       "category": "accident",
       "categoryLabel": "Tai nạn",
       "variant": "image",
-      "image": "/assets/images/blog/post-placeholder.png",
+      "image": "/public/assets/customer/images/blog/post-placeholder.png",
       "title": "Sơ cứu vết bỏng chó mèo",
       "description": "Cách làm dịu vết bỏng bằng nước sạch và băng gạc tạm thời trước khi gặp bác sĩ."
     },
@@ -105,7 +105,7 @@
       "categoryLabel": "Khó thở",
       "variant": "urgent",
       "urgent": true,
-      "image": "/assets/images/blog/first-aid-choking.png",
+      "image": "/public/assets/customer/images/blog/first-aid-choking.png",
       "title": "Xử lý khi thú cưng bị sốc nhiệt",
       "description": "Hạ nhiệt đúng cách, giữ đường thở thông thoáng và đưa thú cưng tới cơ sở thú y."
     },
@@ -122,7 +122,7 @@
       "category": "injury",
       "categoryLabel": "Chấn thương",
       "variant": "image",
-      "image": "/assets/images/blog/post-placeholder.png",
+      "image": "/public/assets/customer/images/blog/post-placeholder.png",
       "title": "Cố định tạm thời khi nghi gãy xương",
       "description": "Hạn chế di chuyển và cố định chi đúng cách trong lúc đưa thú cưng đi cấp cứu."
     }
