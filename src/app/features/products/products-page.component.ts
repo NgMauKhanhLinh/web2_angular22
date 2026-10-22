@@ -63,8 +63,8 @@ const PRODUCTS: ShopProduct[] = Array.from({ length: 40 }, (_, i) => {
         </aside>
         <main class="results">
           <form class="search-row" (submit)="$event.preventDefault()">
-            <label class="searchbox"><input [(ngModel)]="search" name="search" placeholder="Bạn đang tìm kiếm gì?"><button type="submit" aria-label="Tìm kiếm">⌕</button></label>
-            <label class="sortbox"><span>☰</span><select [(ngModel)]="sortOrder" name="sort"><option value="">Sắp xếp giá</option><option value="asc">Giá tăng dần</option><option value="desc">Giá giảm dần</option></select></label>
+            <label class="searchbox"><input [ngModel]="search()" (ngModelChange)="search.set($event)" name="search" placeholder="Bạn đang tìm kiếm gì?"><button type="submit" aria-label="Tìm kiếm">⌕</button></label>
+            <label class="sortbox"><span>☰</span><select [ngModel]="sortOrder()" (ngModelChange)="sortOrder.set($event)" name="sort"><option value="">Sắp xếp giá</option><option value="asc">Giá tăng dần</option><option value="desc">Giá giảm dần</option></select></label>
           </form>
           <p class="result-label">Kết quả tìm kiếm cho {{search ? '“' + search + '”' : '...'}}</p>
           @if (filteredProducts().length) {
